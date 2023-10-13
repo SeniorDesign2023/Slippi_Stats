@@ -21,13 +21,23 @@ may later as we begin more development into the project.
 
  
 5) Confidence:  
-  Beckham Carver:  
-  Kyle Lofthus: 5/5 I am confident we will be able to complete the project pitch. There are a couple "extras"
-                    That we have listed as things to add and work on if we have time to do so. Those I am
-                    less sure on, but the main project I am confident we can complete.  
-  Ben Wilkin:  
-  Zachary Crimmel:  
-  Michael Stoll:  
+  Beckham Carver:   
+  
+  Kyle Lofthus: 5/5 I am confident we will be able to complete the project pitch. There are a couple "extras" 
+  that we have listed as things to add and work on if we have time to do so. Those I am less sure on, but the 
+  main project I am confident we can complete.      
+  
+  Ben Wilkin: I am confident in our ability to tackle this project. I think we are getting to a great start by 
+  meeting with one of the project leads. We have been given some valuable guidance that will helpus get on the 
+  right track. I along with everyone else will have to learn new languages but we have enough relevant experience
+  to make that process relatively conformatable.  
+  
+  Zachary Crimmel:  9/10 I am really confident in this groups ability to tackle this project. We all have an 
+  interest in SSBM and are all interested in the project. My only point of concern is dealing with new languages 
+  and frameworks like Typescript and Electron. Though there is no more concern	than learning any new language or 
+  framework so I am confident we will be able to complete it.  
+  
+  Michael Stoll:    
 
    
 6) Group Dynamics: There have not been any problems among members of the group and the group dynamics have
