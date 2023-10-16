@@ -21,7 +21,10 @@ may later as we begin more development into the project.
 
  
 5) Confidence:  
-  Beckham Carver:   
+  Beckham Carver: 8/10 I am very confident our team will be able to deliver our MVP and as interest and time
+  allows be able to reach or expirement with our stretch goals. Managing our project to a high enough standard
+  to be considered 'mergable' will be difficult and should itself be considered a stretch goal. Regardless,
+  with the resources available to us we will be able to complete our goals.
   
   Kyle Lofthus: 5/5 I am confident we will be able to complete the project pitch. There are a couple "extras" 
   that we have listed as things to add and work on if we have time to do so. Those I am less sure on, but the 
