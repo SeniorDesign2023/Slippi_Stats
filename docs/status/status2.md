@@ -24,7 +24,7 @@
        vote on what the plan should be now and a rough general idea on what part of
        the work each member wants to be tasked with.
    
-    c) Do you need help with it?  Can your mentor help or do you need external help?
+    c) Do you need help with it?  Can your mentor help or do you need external help?  
        Our mentor is Ward, and during our last meeting with him he did provide advice
        on how we should proceed from here. This was for his opinion on which of path
        options from here should not be do to time, and encouraged a meeting between
