@@ -16,10 +16,10 @@
        would be able to themselves.
    
 4) Roadblocks/challenges  
-    a) Describe the challenges
+    a) Describe the challenges  
        Having to completely change our idea to something else was time consuming.
    
-    b) Did you overcome them or are there still challenges left?
+    b) Did you overcome them or are there still challenges left?  
        We did mostly overcome it. Having a short meeting and getting all members to
        vote on what the plan should be now and a rough general idea on what part of
        the work each member wants to be tasked with.
