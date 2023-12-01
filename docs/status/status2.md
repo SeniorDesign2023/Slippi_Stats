@@ -3,7 +3,7 @@
     a) Description of tasks completed (and by whom)
    
 4. Successes  
-    a) What were you group accomplishments?
+    a) What were you group accomplishments?  
        Coming up with a strong second project idea after the pitched project
        fell through due to Slippi deciding to do it themselves.
    
