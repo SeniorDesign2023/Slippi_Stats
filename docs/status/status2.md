@@ -48,7 +48,7 @@
                 By April. 5/5
 
 10) Group dynamics  
-    a) Is your group working or are there problems?
+    a) Is your group working or are there problems?  
         Many of our group members have been extremely busy with othe classes this
         semester, but through our last meeting we have come to an understanding about
         ensuring this Spring semester will require a good amount of real coding time
