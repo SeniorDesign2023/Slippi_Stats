@@ -43,7 +43,7 @@
     the final planning document. 
 
 8) Confidence on completion of the project for each team member and the group average  
-    a) Scale of 1-5; 1 not-confident; 3 = toss-up; 5 = confident.
+    a) Scale of 1-5; 1 not-confident; 3 = toss-up; 5 = confident.  
        Kyle:    I am still confident we will be able to have a cool project to present
                 By April. 5/5
 
