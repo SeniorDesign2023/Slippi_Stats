@@ -1,6 +1,11 @@
 1. Recap of what was planned for the last 3 weeks  
 2. Tasks completed  
     a) Description of tasks completed (and by whom)
+       We have started interacting with libmelee, the library used to create AI
+       inside of Slippi, in order to get our bearings on the tools we will be using
+       next semester. We also created a very simple application window in Python in
+       order to test the feasibility of using Python as our front end in order to
+       allow for easier integration with libmelee.
    
 4. Successes  
     a) What were you group accomplishments?  
@@ -46,6 +51,8 @@
     a) Scale of 1-5; 1 not-confident; 3 = toss-up; 5 = confident.  
        Kyle:    I am still confident we will be able to have a cool project to present
                 By April. 5/5
+       Zach:    5/5 I think we have a good diversity of skills amongst our group and I
+                believe that we will have a good presentation come April.
 
 10) Group dynamics  
     a) Is your group working or are there problems?  
