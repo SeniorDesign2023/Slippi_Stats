@@ -1,7 +1,8 @@
 1. Recap of what was planned for the last 3 weeks  
 2. Tasks completed  
     a) Description of tasks completed (and by whom)  
-           Beckham has started interacting with libmelee a library for making AI in
+
+   Beckham has started interacting with libmelee a library for making AI in
            Slippi, which we plan to use next semester. The library interacts with
            dolphin/Slippi to read gamestate and send controller inputs for designing AI.
            He also read some academic papers relating to Super Smash Brothers AI and ML.
@@ -13,6 +14,7 @@
    
 4. Successes  
     a) What were you group accomplishments?
+
    We had our "come to jesus" moment about the teams trajectory and how we can
            best realign our scope of the project and team dynamics to succeeed in the
            last weeks of the semester and prepare for the next. We were able to reach
@@ -87,15 +89,18 @@
 
 9) Confidence on completion of the project for each team member and the group average  
     a) Scale of 1-5; 1 not-confident; 3 = toss-up; 5 = confident.  
-       Kyle:    I am still confident we will be able to have a cool project to present
+
+   Kyle:    I am still confident we will be able to have a cool project to present
                 By April. 5/5  
-       Zach:    5/5 I think we have a good diversity of skills amongst our group and I
+
+   Zach:    5/5 I think we have a good diversity of skills amongst our group and I
                 believe that we will have a good presentation come April.
-       Beckham: 4/5 I am confident in the "manpower" of our group, and that we can
+
+   Beckham: 4/5 I am confident in the "manpower" of our group, and that we can
                 pull together a solid project by April. To do so though we will need to
                 create much better structure for getting everyone to work.
 
-10) Group dynamics  
+11) Group dynamics  
     a) Is your group working or are there problems?  
 
     Many of our group members have been extremely busy with othe classes this
