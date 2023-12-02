@@ -4,7 +4,7 @@
    we had planned to make part of our project we decided it was redundant to redo their
    work. Looking at other options inspired from our initial stretch goals we investigated
    related papers: [At Human Speed: Deep Reinforcement Learning with Action Delay](https://arxiv.org/pdf/1810.07286.pdf)
-   , [Learning to Play Super Smash Bros. Melee with Delayed Actions](https://arxiv.org/pdf/1810.07286.pdf) ,
+   , [Learning to Play Super Smash Bros. Melee with Delayed Actions](https://www.yash-sharma.com/files/learning-play-super%20(3).pdf) ,
    [Beating the World’s Best at Super Smash Bros. Melee with Deep Reinforcement Learning](https://arxiv.org/pdf/1702.06230.pdf)
    
 3. Tasks completed  
