@@ -1,5 +1,13 @@
-1. Recap of what was planned for the last 3 weeks  
-2. Tasks completed  
+1. Recap of what was planned for the last 3 weeks
+   The official Slippi-Launcher team completed their [implementation](https://github.com/project-slippi/slippi-launcher/pull/400) of the SQLite DB
+   and plans to make it publicily accessible. With their rapid progress on the features
+   we had planned to make part of our project we decided it was redundant to redo their
+   work. Looking at other options inspired from our initial stretch goals we investigated
+   related papers: [At Human Speed: Deep Reinforcement Learning with Action Delay](https://arxiv.org/pdf/1810.07286.pdf)
+   , [Learning to Play Super Smash Bros. Melee with Delayed Actions](https://arxiv.org/pdf/1810.07286.pdf) ,
+   [Beating the World’s Best at Super Smash Bros. Melee with Deep Reinforcement Learning](https://arxiv.org/pdf/1702.06230.pdf)
+   
+3. Tasks completed  
     a) Description of tasks completed (and by whom)  
 
    Beckham has started interacting with libmelee a library for making AI in
