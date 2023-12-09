@@ -1,0 +1,3 @@
+[console_scripts]
+utmp = utmp.__main__:main
+
