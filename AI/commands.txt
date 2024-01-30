@@ -1,0 +1,9 @@
+To start virtual environment:
+    CD into "AI"
+    ./.venv/Scripts/Activate.bat
+
+run a melee script, ie. example.py:
+    Start virtual environment
+    python3 example.py -e "Path to Slippi folder"
+        (Find Slippi folder opening Slippi, Settings > Netplay > Open Config Folder)
+
