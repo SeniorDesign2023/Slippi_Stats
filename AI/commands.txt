@@ -1,3 +1,7 @@
+Setup virtual environment:
+    CD into "AI"
+    python -m venv .venv
+
 To start virtual environment:
     CD into "AI"
     ./.venv/Scripts/Activate.bat
