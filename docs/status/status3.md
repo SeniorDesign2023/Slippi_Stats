@@ -51,7 +51,9 @@ end to get a rough idea of how everything will come together.
   
 8. Details of goals/plan for next 3 weeks:  
     Front-end:  
-      
+      We have decided to use Python's tkinter to create the UI for our project.  Ben and Zach are familiarizing themselves
+      with it and starting work on a window with a button that launches the working version. 
+   
     Back-end:  
       Get a couple different characters code for movement and basic offensive manuevers. Get one low-level AI made
       to control at least one character in a somewhat reasonable fighting manner.
@@ -59,4 +61,5 @@ end to get a rough idea of how everything will come together.
 10. Confidence:
       Kyle: 4/5 There are going to be some tricky parts for getting a model to be able to use multiple characters
             due to the vastly different movement abilities available.
-    
+      Ben: 4/5  I haven't worked with tkinter in a very long time but I am confident that I can learn it very
+            quickly for our purposes. My enviroment is set up for back-end as well when it's called for. 
