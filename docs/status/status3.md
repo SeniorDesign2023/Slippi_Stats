@@ -57,6 +57,6 @@ end to get a rough idea of how everything will come together.
       to control at least one character in a somewhat reasonable fighting manner.
              
 10. Confidence:
-      Kyle: 8/10 There are going to be some tricky parts for getting a model to be able to use multiple characters
+      Kyle: 4/5 There are going to be some tricky parts for getting a model to be able to use multiple characters
             due to the vastly different movement abilities available.
     
