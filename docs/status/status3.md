@@ -62,5 +62,8 @@ end to get a rough idea of how everything will come together.
       Kyle: 4/5 There are going to be some tricky parts for getting a model to be able to use multiple characters
             due to the vastly different movement abilities available.  
       Ben: 4/5  I haven't worked with tkinter in a very long time but I am confident that I can learn it very
-            quickly for our purposes. My enviroment is set up for back-end as well when it's called for. 
-      Beckham: 4/5 as we've started coding the weirder portions of programming for melee are showing up. This will increase the difficulty for making move selection in generalized chains as certain action codes are unclear or mapped unintuitively. Nonetheless our goals are clear and the documention is solid.
+            quickly for our purposes. My enviroment is set up for back-end as well when it's called for.  
+      Beckham: 4/5 as we've started coding the weirder portions of programming for melee are showing up. This will increase the difficulty for making move selection in generalized chains as certain action codes are unclear or mapped unintuitively. Nonetheless our goals are clear and the documention is solid.  
+      Zachary: 4/5 I ran into a bit of a hiccup just getting the virtual environment and lib melee up and running but this
+              is most likely just the usual issues of trying to get a new environment set up. TKInter seems fairly simple to get up and running
+              and I am confident that Ben and I can get a good looking Frontend developed by April.
