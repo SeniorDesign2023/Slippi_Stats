@@ -70,5 +70,6 @@
       
     Ben: 4/5 because we are progressing a little slowly but our front-end roles and goals are well defined now with deadlines.  Our work shouldn't be difficult on the frontend and we are set to have a bare-bones gui by next Wednesday.
     Beckham: 4/5 progress was slower than I would've liked, assigning concrete goals for each member is working well so far and reassures me that we will be able to complete the project, even if it will innevitably require some 'goblin mode' days.
-    Zachary: 4/5 I ran into a bit of a hiccup just getting the virtual environment and lib melee up and running but this is most likely just the usual issues of trying to get a new environment set up. TKInter seems fairly simple to get up and running and I am confident that Ben and I can get a good looking Frontend developed by April.
+    Zachary: 5/5 Progress on the front-end of the project is moving smoothly. We got a good amount of actionables donw to start working on and  
+    with the Trello board have clear direction of who's doing what.
 
