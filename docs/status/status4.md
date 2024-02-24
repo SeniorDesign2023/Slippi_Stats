@@ -11,7 +11,7 @@
     Tasks complete:
     a) Description of tasks:
     Everyone is set up to program with code that can be connected to the Slippi Launcher.
-    Ben and Zachary and begun the steps for the front-end.
+    Ben and Zachary and begun the steps for the front-end as well as setting up bots to get familiar with the back-end.
     Beckham, Michael, and Kyle have continued the creation of bots with basic commands, and adding some advanced  
     commands.
     Kyle has begun experimenting with training an AI model to learn the game, through playing.
@@ -62,7 +62,7 @@
     Kyle: 4/5 Still confident we will have the bots working for playing though the milestone of a workable AI  
     that can learn how to play like another player I am much less confident on given the remaining timeline  
       
-    Ben: 4/5 I haven't worked with tkinter in a very long time but I am confident that I can learn it very quickly for our purposes. My enviroment is set up for back-end as well when it's called for.
+    Ben: 4/5 because we are progressing a little slowly but our front-end roles and goals are well defined now with deadlines.  Our work shouldn't be difficult on the frontend and we are set to have a bare-bones gui by next Wednesday.
     Beckham: 4/5 as we've started coding the weirder portions of programming for melee are showing up. This will increase the difficulty for making move selection in generalized chains as certain action codes are unclear or mapped unintuitively. Nonetheless our goals are clear and the documention is solid.
     Zachary: 4/5 I ran into a bit of a hiccup just getting the virtual environment and lib melee up and running but this is most likely just the usual issues of trying to get a new environment set up. TKInter seems fairly simple to get up and running and I am confident that Ben and I can get a good looking Frontend developed by April.
 
