@@ -34,7 +34,7 @@ def main():
     selectedCharacter = tk.StringVar()
     characterLabel = tk.Label(root, text="Select a character to train against")
     characterLabel.pack(pady=10)
-    dropdown = tk.OptionMenu(root, selectedCharacter, *characters, command=characterImage(selectedCharacter))
+    dropdown = tk.OptionMenu(root, selectedCharacter, *characters)
     dropdown.pack()
 
     button_explore = Button(root, 
@@ -46,27 +46,27 @@ def main():
     quitButton.pack(pady = 100)
     root.mainloop()
 
-def characterImage(character):
-    if character is not None:
-        path = pathlib.Path(__file__).parent.resolve()
-        path = path._str.replace("window", "") + "CharacterImages\\Mario.jpg"
-        path = Path(path)
-        characterImage = Image.open(path)
-        test = ImageTk.PhotoImage(characterImage)
-        label1 = tk.Label(image=test)
-        label1.image = test
-        # Position image
-        label1.place(0, 0)
-    else:
-        path = pathlib.Path(__file__).parent.resolve()
-        path = path._str.replace("window", "") + "CharacterImages\\" + character.get() + ".jpg"
-        path = Path(path)
-        characterImage = Image.open(path)
-        test = ImageTk.PhotoImage(characterImage)
-        label1 = tk.Label(image=test)
-        label1.image = test
-        # Position image
-        label1.place(0, 0)
+# def characterImage(character):
+#     if character is not None:
+#         path = pathlib.Path(__file__).parent.resolve()
+#         path = path._str.replace("window", "") + "CharacterImages\\Mario.jpg"
+#         path = Path(path)
+#         characterImage = Image.open(path)
+#         test = ImageTk.PhotoImage(characterImage)
+#         label1 = tk.Label(image=test)
+#         label1.image = test
+#         # Position image
+#         label1.place(0, 0)
+#     else:
+#         path = pathlib.Path(__file__).parent.resolve()
+#         path = path._str.replace("window", "") + "CharacterImages\\" + character.get() + ".jpg"
+#         path = Path(path)
+#         characterImage = Image.open(path)
+#         test = ImageTk.PhotoImage(characterImage)
+#         label1 = tk.Label(image=test)
+#         label1.image = test
+#         # Position image
+#         label1.place(0, 0)
 
 def browseFiles():
     filename = filedialog.askopenfilename(initialdir = "/",
