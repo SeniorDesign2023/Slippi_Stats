@@ -2,6 +2,7 @@
 
 # Using tkinter version 8.6
 # Visit https://docs.python.org/3/library/tkinter.html for documentation
+# Using pack as the LayoutManager, 
 
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -21,8 +22,7 @@ def main():
     global label_file_explorer
     label_file_explorer = Label(root, 
                                 text = "File Explorer using Tkinter",
-                                width = 100, height = 4, 
-                                fg = "blue")
+                                width = 100, height = 4)
     
     # Select Character
     characters = ["Mario", "Bowser", "Peach", "Yoshi", "Donkey Kong",
@@ -31,12 +31,15 @@ def main():
                   "Jigglypuff", "Dr. Mario", "Luigi", "Ganondorf",
                   "Falco", "Young Link", "Pichu", "Mewtwo",
                   "Mr. Game & Watch", "Marth", "Roy"]
-    selectedCharacter = tk.StringVar()
+    global selectedCharacter
+    selectedCharacter = tk.StringVar(master=root) #Always pass the 'master' keyword argument
+    selectedCharacter.set("Mario")
+    selectedCharacter.trace_add('write', characterImage)
     characterLabel = tk.Label(root, text="Select a character to train against")
     characterLabel.pack(pady=10)
-    dropdown = tk.OptionMenu(root, selectedCharacter, *characters)
+    dropdown = tk.OptionMenu(root, selectedCharacter, *characters, command=characterImage)
     dropdown.pack()
-
+    
     button_explore = Button(root, 
                             text = "Browse Files",
                             command = browseFiles)
@@ -46,27 +49,17 @@ def main():
     quitButton.pack(pady = 100)
     root.mainloop()
 
-# def characterImage(character):
-#     if character is not None:
-#         path = pathlib.Path(__file__).parent.resolve()
-#         path = path._str.replace("window", "") + "CharacterImages\\Mario.jpg"
-#         path = Path(path)
-#         characterImage = Image.open(path)
-#         test = ImageTk.PhotoImage(characterImage)
-#         label1 = tk.Label(image=test)
-#         label1.image = test
-#         # Position image
-#         label1.place(0, 0)
-#     else:
-#         path = pathlib.Path(__file__).parent.resolve()
-#         path = path._str.replace("window", "") + "CharacterImages\\" + character.get() + ".jpg"
-#         path = Path(path)
-#         characterImage = Image.open(path)
-#         test = ImageTk.PhotoImage(characterImage)
-#         label1 = tk.Label(image=test)
-#         label1.image = test
-#         # Position image
-#         label1.place(0, 0)
+def characterImage(*args):
+    path = pathlib.Path(__file__).parent.resolve()
+    path = path._str + "\\CharacterImages\\{}.jpg".format(selectedCharacter.get())
+    # path = path.replace("\\\\","\\")
+    path = Path(path)
+    characterImage = Image.open(path)
+    test = ImageTk.PhotoImage(characterImage)
+    label1 = tk.Label(image=test)
+    label1.image = test
+    # Position image
+    label1.pack()
 
 def browseFiles():
     filename = filedialog.askopenfilename(initialdir = "/",
