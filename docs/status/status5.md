@@ -34,4 +34,7 @@ Details Description of Goals/ Plan for ​Next 3 Weeks
 Confidence on completion from each team member + team average
 Scale of 1-5; 1 = not-confident; 3 = toss-up; 5 = confident  
 Kyle: 2.5/5. We will for sure have one character working and completely customizable in time, but  
-    beyond that, I'm doubtful. 
+    beyond that, I'm doubtful.  
+Zach: 3/5. Frontend still needs a decent amount of work. Need to figure out API functionality and  
+            communicating with the bots through the app. It will get done, just more work than  
+            previously anticipated. 
