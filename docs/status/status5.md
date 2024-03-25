@@ -38,3 +38,6 @@ Kyle: 2.5/5. We will for sure have one character working and completely customiz
 Zach: 3/5. Frontend still needs a decent amount of work. Need to figure out API functionality and  
             communicating with the bots through the app. It will get done, just more work than  
             previously anticipated. 
+Ben: 3/5. I'm confident in what my part of the job is, but I need to put in a litte work to figure
+            out how it will fit together and am feeling the time crunch.  I should be able to get the
+            UI looking decent though, it should be the least dependent piece of the puzzle
