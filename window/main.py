@@ -1,4 +1,4 @@
-### MAIN WINDOW ###Helvetica
+### MAIN WINDOW ###
 
 # Using tkinter version 8.6
 # Visit https://docs.python.org/3/library/tkinter.html for documentation
@@ -32,12 +32,16 @@ def main():
                   "Falco", "Young Link", "Pichu", "Mewtwo",
                   "Mr. Game & Watch", "Marth", "Roy"]
     global selectedCharacter
+    global label1
+    label1 = Label(root, image = "")
+    global imageAppear
+    imageAppear = True
     selectedCharacter = tk.StringVar(master=root) #Always pass the 'master' keyword argument
     selectedCharacter.set("Mario")
     selectedCharacter.trace_add('write', characterImage)
     characterLabel = tk.Label(root, text="Select a character to train against")
     characterLabel.pack(pady=10)
-    dropdown = tk.OptionMenu(root, selectedCharacter, *characters, command=characterImage)
+    dropdown = tk.OptionMenu(root, selectedCharacter, *characters)
     dropdown.pack()
     
     button_explore = Button(root, 
@@ -50,6 +54,10 @@ def main():
     root.mainloop()
 
 def characterImage(*args):
+    global imageAppear
+    global label1
+    if imageAppear == True:
+        clearImage()
     path = pathlib.Path(__file__).parent.resolve()
     path = path._str + "\\CharacterImages\\{}.jpg".format(selectedCharacter.get())
     # path = path.replace("\\\\","\\")
@@ -60,6 +68,10 @@ def characterImage(*args):
     label1.image = test
     # Position image
     label1.pack()
+    imageAppear = True
+
+def clearImage():
+    label1.config(image = "")
 
 def browseFiles():
     filename = filedialog.askopenfilename(initialdir = "/",
