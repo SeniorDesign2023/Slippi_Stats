@@ -4,7 +4,7 @@ Setup virtual environment:
 
 To start virtual environment:
     CD into "AI"
-    ./.venv/Scripts/Activate.bat
+    ./.venv/Scripts/Activate.ps1 (or .bat for regular terminal)
 
 run a melee script, ie. example.py:
     Start virtual environment
