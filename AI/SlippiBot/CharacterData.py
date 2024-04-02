@@ -1,6 +1,6 @@
 import melee
 import math
-from GeneralizedActions import GA
+from GeneralizedActions import GeneralizedAgent
 
 def playerVector(gameState: melee.GameState):
     distance = [gameState.players[1].x - gameState.players[2].x, gameState.players[1].y - gameState.players[2].y]
@@ -38,12 +38,15 @@ class CharacterData:
         ATTACK_MOSTFRAME = sorted(ATTACK_FIRSTFRAME, key = lambda ac: FD.last_hitbox_frame(character, ac) - FD.first_hitbox_frame(character, ac))
         self.ATTACK_MOSTFRAME = list(map(lambda ac: (ac.name, FD.last_hitbox_frame(character, ac) - FD.first_hitbox_frame(character, ac)), ATTACK_MOSTFRAME))
         
-    def testAllInput(self, console: melee.Console, controller: melee.Controller):
+    def testRun(self, console: melee.Console, controller: melee.Controller):
         print("TESTING (console & controllers must already be connected to test!)")
-        ga = GA(self.FD, self.PORT_SELF, self.PORT_ENEMY)
+        ga = GeneralizedAgent(self.FD, self.PORT_SELF, self.PORT_ENEMY)
         nextAction = 200
-        actions = [ga.shorthop, ga.fullhop, ga.jab, ga.uair, lambda x: print("end! " + str(type(x)))]
-        index = 0
+        actionsGround = [ga.jab, ga.daft, ga.usmash, ga.dsmash]
+        actionsAir = [ga.uair, ga.dair, ga.bair]
+        indexG = 0
+        indexA = 0
+        doGround = True
         while(True):
             gamestate = console.step()
             
@@ -54,25 +57,28 @@ class CharacterData:
                 print("WARNING: Last frame took " + str(console.processingtime*1000) + "ms to process.")
 
             if gamestate.menu_state in [melee.Menu.IN_GAME, melee.Menu.SUDDEN_DEATH]:
-                ga.nextState(gamestate, controller)
-                if gamestate.frame >= nextAction:
-                    print(controller.current.button)
-                    print(controller.current.c_stick)
-                    print(controller.current.main_stick)
-                    print(actions[index%4])
-                    print(dict(ga.release_buffer))
-                    nextAction += 200
-                    actions[index%4](controller)
-                    index += 1
-                    
                 plrVec = playerVector(gamestate)
-                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, plrVec[0], plrVec[1]) 
+                ga.nextState(gamestate)
+                controller.tilt_analog(melee.Button.BUTTON_MAIN, int(ga.es.position.x > ga.ps.position.x), 0.5) # fuck this 0.5
+                ga.hop_to_y(controller, ga.es.position.y, 50)
+                print(ga.ps.action)
+                print(ga.ps.jumps_left)
+                print(controller.current.button[melee.Button.BUTTON_A])
+                if doGround:
+                    if ga.jab(controller):
+                        indexG += 1
+                        doGround = False
+                else:
+                    if actionsAir[indexA%4](controller):
+                        indexA += 1
+                #controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, plrVec[0], plrVec[1]) 
+                ga.endState(gamestate, controller)
                 pass
             else:
                 melee.MenuHelper.menu_helper_simple(gamestate,
                                                     controller,
                                                     self.CHARACTER,
-                                                    melee.Stage.FINAL_DESTINATION,
+                                                    self.STAGE_SELECTED,
                                                     "",
                                                     costume=2,
                                                     autostart=True,
