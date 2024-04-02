@@ -43,16 +43,22 @@ while True:
             sideDif = gamestate.player[PORT_BOT].x - gamestate.player[PORT_HUMAN].x
             direction = gamestate.player[PORT_BOT].x < gamestate.player[PORT_HUMAN].x
             if (gamestate.distance < 21): #if close, jump and up B. ps eat shit beckham 21 is better than 20
-                 #controller.release_button(melee.Button.BUTTON_MAIN)
-                 #controller.release_button(melee.Button.BUTTON_B)
                  #controller.press_button(melee.Button.BUTTON_X)
                  #controller.flush()
                  controller.tilt_analog(melee.Button.BUTTON_MAIN, 0.5, 1)
                  controller.press_button(melee.Button.BUTTON_B)
             elif  (heightDif > -21) and (heightDif < 21): #if on the same height, throw boomerang
                  controller.release_button(melee.Button.BUTTON_MAIN)
-                 controller.simple_press(int(direction), 0.5, melee.Button.BUTTON_B)
-            elif (gamestate.player[PORT_HUMAN].stock > 1) or mocked:
+                 if(gamestate.player[PORT_BOT].x > ((melee.stages.EDGE_GROUND_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 42)) and ((gamestate.player[PORT_BOT].x < melee.stages.EDGE_GROUND_POSITION[melee.Stage.POKEMON_STADIUM]) - 42):
+                    controller.simple_press(int(direction), 0.5, melee.Button.BUTTON_B)
+            elif gamestate.player[PORT_BOT].off_stage: #if we've fallen off, get back on the stage
+                 if gamestate.player[PORT_BOT].x < ((melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 42): #left side
+                    controller.tilt_analog(melee.Button.BUTTON_MAIN, 1, 1)
+                 elif gamestate.player[PORT_BOT].x > melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] - 42: #right side
+                    controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, 1)
+                 controller.press_button(melee.Button.BUTTON_X)
+                 controller.press_button(melee.Button.BUTTON_B)
+            elif (gamestate.player[PORT_HUMAN].stock > 1) or mocked: #just to make sure we've taunted
                  if (sideDif > -21) and (sideDif < 21): #if in the same "column"
                       if heightDif > 21: #player is lower
                            controller.release_button(melee.Button.BUTTON_MAIN)
@@ -86,7 +92,7 @@ while True:
         melee.MenuHelper.menu_helper_simple(gamestate,
                                             controller,
                                             melee.Character.LINK,
-                                            melee.Stage.RANDOM_STAGE,
+                                            melee.Stage.POKEMON_STADIUM,
                                             "",
                                             costume=0,
                                             autostart=False,
