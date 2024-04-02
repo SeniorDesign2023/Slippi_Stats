@@ -24,6 +24,7 @@ controller.connect()
 
 #issues:
 #link doesn't see you if you are right behind him
+    #for that matter, he does nothing if you are right next to him on either side
 #link will happily chase you straight off the stage
     #detect edge somehow?
 #also he lacks any sort of edge recovery
@@ -33,7 +34,8 @@ controller.connect()
     #worth noting that he always falls left
 #he will not double jump
     #i'm thinking make a framedata object because it has a method that checks double jump height
-
+#he will not taunt
+mocked = False
 while True:
     gamestate = console.step() 
     if gamestate.menu_state in [melee.Menu.IN_GAME, melee.Menu.SUDDEN_DEATH]:
@@ -47,18 +49,18 @@ while True:
                  #controller.flush()
                  controller.tilt_analog(melee.Button.BUTTON_MAIN, 0.5, 1)
                  controller.press_button(melee.Button.BUTTON_B)
-            elif  (heightDif > -21) and (heightDif < 21): #if on the same height, shoot
+            elif  (heightDif > -21) and (heightDif < 21): #if on the same height, throw boomerang
                  controller.release_button(melee.Button.BUTTON_MAIN)
                  controller.simple_press(int(direction), 0.5, melee.Button.BUTTON_B)
-            else:
+            elif (gamestate.player[PORT_HUMAN].stock > 1) or mocked:
                  if (sideDif > -21) and (sideDif < 21): #if in the same "column"
                       if heightDif > 21: #player is lower
-                           #controller.release_button(melee.Button.BUTTON_MAIN)
+                           controller.release_button(melee.Button.BUTTON_MAIN)
                            controller.release_button(melee.Button.BUTTON_X)
                            controller.release_button(melee.Button.BUTTON_B)
                            controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, 0)
                       elif heightDif < -21: #player is higher
-                            #controller.release_button(melee.Button.BUTTON_MAIN)
+                            controller.release_button(melee.Button.BUTTON_MAIN)
                             controller.release_button(melee.Button.BUTTON_X)
                             controller.release_button(melee.Button.BUTTON_B)
                             controller.press_button(melee.Button.BUTTON_Y)
@@ -67,6 +69,19 @@ while True:
                      controller.release_button(melee.Button.BUTTON_X)
                      controller.release_button(melee.Button.BUTTON_B)
                      controller.release_button(melee.Button.BUTTON_Y)
+            else: #one stock left. nerd
+                 mocked = True
+                 controller.release_button(melee.Button.BUTTON_X)
+                 controller.release_button(melee.Button.BUTTON_B)
+                 controller.release_button(melee.Button.BUTTON_Y)
+                 controller.release_button(melee.Button.BUTTON_MAIN)
+                 controller.press_button(melee.Button.BUTTON_D_UP)
+                 controller.press_button(melee.Button.BUTTON_L)
+                 controller.flush()
+                 controller.release_button(melee.Button.BUTTON_D_UP)
+                 controller.release_button(melee.Button.BUTTON_L)
+
+                 
     else:
         melee.MenuHelper.menu_helper_simple(gamestate,
                                             controller,
