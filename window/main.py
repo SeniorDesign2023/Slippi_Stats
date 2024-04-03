@@ -11,17 +11,19 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 import pathlib
 from pathlib import Path
+import os
+##from AI import example
 
 def main():
     root = tk.Tk()
     root.geometry('1280x760')
     root.title("Slippi Stats")
-    title = Label(root, text = "Slippi Stats", font = ('Helvetica 20 bold')).pack(pady = 20)
+    title = Label(root, text = "Build a Slippi Bot", font = ('Helvetica 20 bold')).pack(pady = 20)
     
     # Create a File Explorer label
     global label_file_explorer
     label_file_explorer = Label(root, 
-                                text = "File Explorer using Tkinter",
+                                text = "",
                                 width = 100, height = 4)
     
     # Select Character
@@ -37,7 +39,7 @@ def main():
     global imageAppear
     imageAppear = True
     selectedCharacter = tk.StringVar(master=root) #Always pass the 'master' keyword argument
-    selectedCharacter.set("Mario")
+    selectedCharacter.set("Select a character")
     selectedCharacter.trace_add('write', characterImage)
     characterLabel = tk.Label(root, text="Select a character to train against")
     characterLabel.pack(pady=10)
@@ -52,6 +54,13 @@ def main():
     quitButton = tk.Button(text="Quit", command=root.destroy)
     quitButton.pack(pady = 100)
     root.mainloop()
+
+#Character Options
+    #character
+    #aggresion = 1-9
+    #playstyle = aerial grounded mixed
+    #waveshine = boolean
+    #multishine = boolean
 
 def characterImage(*args):
     global imageAppear
@@ -73,6 +82,10 @@ def characterImage(*args):
 def clearImage():
     label1.config(image = "")
 
+def runSlippi():
+    os.system("./.venv/Scripts/Activate.bat")
+    os.system("python3 example.py -e \"C:\\Users\\zcrim\\AppData\\Roaming\\Slippi Launcher\\netplay\"")
+
 def browseFiles():
     filename = filedialog.askopenfilename(initialdir = "/",
                                           title = "Select a File",
@@ -81,4 +94,5 @@ def browseFiles():
                                                        ("All files",
                                                         "*.*")))
     label_file_explorer.configure(text="File Opened: "+filename)
+
 main()
