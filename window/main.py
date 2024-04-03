@@ -2,7 +2,10 @@
 
 # Using tkinter version 8.6
 # Visit https://docs.python.org/3/library/tkinter.html for documentation
-# Using pack as the LayoutManager, 
+# Using pack as the LayoutManager
+
+# I am aware that global variables are bad coding practice but are you aware
+# that I am a bad coder?
 
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -12,9 +15,9 @@ from PIL import Image, ImageTk
 import pathlib
 from pathlib import Path
 import os
-##from AI import example
 
 def main():
+    # Initialize Window
     root = tk.Tk()
     root.geometry('1280x760')
     root.title("Slippi Stats")
@@ -42,15 +45,24 @@ def main():
     selectedCharacter.set("Select a character")
     selectedCharacter.trace_add('write', characterImage)
     characterLabel = tk.Label(root, text="Select a character to train against")
-    characterLabel.pack(pady=10)
+    characterLabel.pack(pady=5)
     dropdown = tk.OptionMenu(root, selectedCharacter, *characters)
     dropdown.pack()
     
+    # File Explorer
     button_explore = Button(root, 
                             text = "Browse Files",
                             command = browseFiles)
-    label_file_explorer.pack(pady=10)
-    button_explore.pack(pady=10)
+    label_file_explorer.pack(pady=5)
+    button_explore.pack(pady=5)
+
+    # Launch Slippi
+    launchButton = Button(root,
+                          text = "Launch Slippi",
+                          command=runSlippi)
+    launchButton.pack(pady=5)
+
+    # Quit Button
     quitButton = tk.Button(text="Quit", command=root.destroy)
     quitButton.pack(pady = 100)
     root.mainloop()
@@ -76,7 +88,7 @@ def characterImage(*args):
     label1 = tk.Label(image=test)
     label1.image = test
     # Position image
-    label1.pack()
+    label1.pack(side=RIGHT)
     imageAppear = True
 
 def clearImage():
