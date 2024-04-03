@@ -5,9 +5,9 @@
 import melee
 import melee.gamestate
 
-#mom said it's not my turn to be player 1
-PORT_BOT = 1
-PORT_HUMAN = 2
+#mom said it's my turn to be player 1 because that's how smashbot does it
+PORT_BOT = 2
+PORT_HUMAN = 1
 #setup
 console = melee.Console(path="C:/Users/micha/AppData/Roaming/Slippi Launcher/netplay")
 controller = melee.Controller(console=console, port=PORT_BOT)

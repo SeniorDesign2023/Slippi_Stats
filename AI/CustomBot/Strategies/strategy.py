@@ -1,4 +1,5 @@
 from abc import ABCMeta
+import Tactics
 
 class Strategy:
     __metaclass__ = ABCMeta

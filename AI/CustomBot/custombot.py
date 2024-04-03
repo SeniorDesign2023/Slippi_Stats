@@ -67,16 +67,16 @@ if args.debug:
 #    STANDARD is a named pipe input (bot)
 opponent_type = melee.ControllerType.STANDARD
 if not args.bot:
-    opponent_type = melee.ControllerType.GCN_ADAPTER
+    opponent_type = melee.ControllerType.STANDARD
 
 # Create our console object. This will be the primary object that we will interface with
-console = melee.console.Console(path=args.dolphinexecutable,
+console = melee.console.Console(path="C:/Users/micha/AppData/Roaming/Slippi Launcher/netplay",
                                 logger=log)
 
 controller_one = melee.controller.Controller(console=console, port=args.port)
 controller_two = melee.controller.Controller(console=console,
-                                             port=args.opponent,
-                                             type=opponent_type)
+                                             port=args.opponent)
+                                             #type=opponent_type)
 
 # initialize our agent
 agent1 = CustomAgent(console, args.port, args.opponent, controller_one, args.difficulty)
@@ -158,7 +158,7 @@ while True:
             if gamestate.menu_state == melee.Menu.STAGE_SELECT:
                 agent1.controller.empty_input()
                 agent2.controller.empty_input()
-            else:
+            else: #TODO: get "character" from front end
                 melee.menuhelper.MenuHelper.menu_helper_simple(gamestate,
                                                                 controller_one,
                                                                 melee.Character.FOX,

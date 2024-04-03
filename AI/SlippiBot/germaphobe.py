@@ -5,9 +5,9 @@
 import melee
 import melee.gamestate
 
-#mom said it's not my turn to be player 1
-PORT_BOT = 1
-PORT_HUMAN = 2
+#mom said it's my turn to be player 1 because that's how smashbot does it
+PORT_BOT = 2
+PORT_HUMAN = 1
 #saves chars later and allows easy portability to a different map
 groundEdge = melee.stages.EDGE_GROUND_POSITION[melee.Stage.BATTLEFIELD]
 outEdge = melee.stages.EDGE_POSITION[melee.Stage.BATTLEFIELD]
