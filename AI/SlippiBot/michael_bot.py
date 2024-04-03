@@ -17,7 +17,7 @@ console.connect()
 
 controller.connect()
 #idea:
-#link is aggressive. he (vert/hrzt) pursues you until he is close enough to upB you
+#link is aggressive. he (vert/hrzt) pursues you until he is close enough to attack you with A
 #if he is out of melee range, he throws boomerangs while he approaches
     #optional: he randomly decides which attack he does 
 #on your last stock, he taunts when you spawn
@@ -25,13 +25,15 @@ controller.connect()
 #issues:
 #link doesn't see you if you are right behind him
     #for that matter, he does nothing if you are right next to him on either side
-#link will happily chase you straight off the stage
-    #detect edge somehow?
+#when he runs off the left side, he won't up B to get back on
+    #right side works fine, but not terribly well
+#sometimes, unprompted, he just runs off one of the sides and tries to kill himself
+    #relatable
 #also he lacks any sort of edge recovery
-    #ibid
+    #edge detection?
 #link will simply kneel instead of dropping through platforms
-#when he approaches, instead of hitting he jumps, falls left, and boomerangs
-    #worth noting that he always falls left
+#when he approaches, he will simply hit once and then continue
+    #make him stop and continue to attack
 #he will not double jump
     #i'm thinking make a framedata object because it has a method that checks double jump height
 #he will not taunt
@@ -39,53 +41,74 @@ mocked = False
 while True:
     gamestate = console.step() 
     if gamestate.menu_state in [melee.Menu.IN_GAME, melee.Menu.SUDDEN_DEATH]:
-            heightDif = gamestate.player[PORT_BOT].y - gamestate.player[PORT_HUMAN].y
-            sideDif = gamestate.player[PORT_BOT].x - gamestate.player[PORT_HUMAN].x
-            direction = gamestate.player[PORT_BOT].x < gamestate.player[PORT_HUMAN].x
-            if (gamestate.distance < 21): #if close, jump and up B. ps eat shit beckham 21 is better than 20
-                 #controller.press_button(melee.Button.BUTTON_X)
-                 #controller.flush()
-                 controller.tilt_analog(melee.Button.BUTTON_MAIN, 0.5, 1)
-                 controller.press_button(melee.Button.BUTTON_B)
-            elif  (heightDif > -21) and (heightDif < 21): #if on the same height, throw boomerang
+            heightDif = gamestate.players[PORT_BOT].y - gamestate.players[PORT_HUMAN].y
+            sideDif = gamestate.players[PORT_BOT].x - gamestate.players[PORT_HUMAN].x
+            xdirection = gamestate.players[PORT_BOT].x < gamestate.players[PORT_HUMAN].x
+            ydirection = gamestate.players[PORT_BOT].y < gamestate.players[PORT_HUMAN].y
+            if (gamestate.distance < 15): #if close, throw cstick
                  controller.release_button(melee.Button.BUTTON_MAIN)
-                 if(gamestate.player[PORT_BOT].x > ((melee.stages.EDGE_GROUND_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 42)) and ((gamestate.player[PORT_BOT].x < melee.stages.EDGE_GROUND_POSITION[melee.Stage.POKEMON_STADIUM]) - 42):
-                    controller.simple_press(int(direction), 0.5, melee.Button.BUTTON_B)
-            elif gamestate.player[PORT_BOT].off_stage: #if we've fallen off, get back on the stage
-                 if gamestate.player[PORT_BOT].x < ((melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 42): #left side
-                    controller.tilt_analog(melee.Button.BUTTON_MAIN, 1, 1)
-                 elif gamestate.player[PORT_BOT].x > melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] - 42: #right side
-                    controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, 1)
-                 controller.press_button(melee.Button.BUTTON_X)
-                 controller.press_button(melee.Button.BUTTON_B)
-            elif (gamestate.player[PORT_HUMAN].stock > 1) or mocked: #just to make sure we've taunted
+                 controller.release_button(melee.Button.BUTTON_B)
+                 controller.tilt_analog(melee.Button.BUTTON_C, int(xdirection), int(ydirection))
+
+            if  (heightDif > -21) and (heightDif < 21): #if on the same height
+                 #controller.release_button(melee.Button.BUTTON_MAIN)
+                 controller.release_button(melee.Button.BUTTON_C)
+                 #if the bot is between the stage borders
+                 if(gamestate.players[PORT_BOT].x > ((melee.stages.EDGE_GROUND_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 42)) and ((gamestate.players[PORT_BOT].x < melee.stages.EDGE_GROUND_POSITION[melee.Stage.POKEMON_STADIUM]) - 42):
+                    if gamestate.distance > 30: #if far away, throw boomerang
+                         controller.press_button(melee.Button.BUTTON_B)
+                         controller.tilt_analog(melee.Button.BUTTON_MAIN, int(xdirection), 0.5) #run at player
+                    elif gamestate.distance < 15: #if close, stop moving
+                         controller.release_button(melee.Button.BUTTON_MAIN)
+                         controller.release_button(melee.Button.BUTTON_C)
+           
+            elif gamestate.players[PORT_BOT].off_stage: #if we've fallen off
+                if gamestate.players[PORT_BOT].y < -21: #if we're below the stage level
+                    if gamestate.players[PORT_BOT].x < ((melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 42): #left side
+                        controller.release_button(melee.Button.BUTTON_MAIN)
+                        controller.simple_press(1, 1, melee.Button.BUTTON_B)
+                    elif gamestate.players[PORT_BOT].x > melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] - 42: #right side
+                        controller.release_button(melee.Button.BUTTON_MAIN)
+                        controller.simple_press(0, 1, melee.Button.BUTTON_B)
+                else: #if we've just barely walked off
+                    if gamestate.players[PORT_BOT].x < ((melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 42): #left side
+                        controller.tilt_analog(melee.Button.BUTTON_MAIN, 1, .5)
+                    elif gamestate.players[PORT_BOT].x > melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] - 42: #right side
+                        controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, .5)
+            
+            #elif on the edge:
+            
+            elif (gamestate.players[PORT_HUMAN].stock > 1) or mocked: #just to make sure we've taunted if the person is down to 1 stock
                  if (sideDif > -21) and (sideDif < 21): #if in the same "column"
                       if heightDif > 21: #player is lower
                            controller.release_button(melee.Button.BUTTON_MAIN)
                            controller.release_button(melee.Button.BUTTON_X)
                            controller.release_button(melee.Button.BUTTON_B)
-                           controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, 0)
+                           controller.release_button(melee.Button.BUTTON_C)
+                           controller.tilt_analog(melee.Button.BUTTON_MAIN, 0.5, 0)
                       elif heightDif < -21: #player is higher
                             controller.release_button(melee.Button.BUTTON_MAIN)
                             controller.release_button(melee.Button.BUTTON_X)
                             controller.release_button(melee.Button.BUTTON_B)
+                            controller.release_button(melee.Button.BUTTON_C)
                             controller.press_button(melee.Button.BUTTON_Y)
-                 else: #not the same height. find which direction to go and go there
-                     controller.tilt_analog(melee.Button.BUTTON_MAIN, int(direction), 0.5)
+                            controller.tilt_analog(melee.Button.BUTTON_MAIN, 0.5, 1)
+                 else: #not the same column. find which xdirection to go and go there
                      controller.release_button(melee.Button.BUTTON_X)
                      controller.release_button(melee.Button.BUTTON_B)
+                     controller.release_button(melee.Button.BUTTON_C)
                      controller.release_button(melee.Button.BUTTON_Y)
+                     controller.tilt_analog(melee.Button.BUTTON_MAIN, int(xdirection), 0.5)
+            
             else: #one stock left. nerd
                  mocked = True
                  controller.release_button(melee.Button.BUTTON_X)
                  controller.release_button(melee.Button.BUTTON_B)
                  controller.release_button(melee.Button.BUTTON_Y)
+                 controller.release_button(melee.Button.BUTTON_C)
                  controller.release_button(melee.Button.BUTTON_MAIN)
                  controller.press_button(melee.Button.BUTTON_D_UP)
-                 controller.press_button(melee.Button.BUTTON_L)
-                 controller.flush()
-                 controller.release_button(melee.Button.BUTTON_D_UP)
-                 controller.release_button(melee.Button.BUTTON_L)
+            
 
                  
     else:
