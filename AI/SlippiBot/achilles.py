@@ -1,6 +1,6 @@
 ##
 ## Created by: Michael Stoll
-## Last Updated: 4/3/2024 12:31am
+## Last Updated: 4/3/2024 3:44am
 ##
 import melee
 import melee.gamestate
@@ -24,11 +24,11 @@ controller.connect()
 #the fight takes place in the Pokemon Stadium
 
 #issues:
-#he won't edge recover until he falls
 #link will simply kneel instead of dropping through platforms
+    #i'm thinking check for the action, like for edgegrab
 #the player can camp behind him if he begins a combo while facing away from them
     #as soon as they move or attack, the spell is broken
-#sometimes he temporarily freezes somewhere in the second "if"
+    #debugging shows this happens somewhere in "if" number 2
 #he will not double jump to save himself from the void
     #i'm thinking make a framedata object because it has a method that checks double jump height
     #or, and hear me out, this is his achilles' heel
@@ -72,18 +72,15 @@ while True:
                     else: 
                          controller.tilt_analog(melee.Button.BUTTON_MAIN, int(xdirection), .5)
                          controller.tilt_analog(melee.Button.BUTTON_C, int(xdirection), int(ydirection))
-            #if edge_hanging currently
-            #doesn't work. leaving in case we figure out how to check actions        
-            elif melee.gamestate.PlayerState.action == melee.gamestate.enums.Action.EDGE_HANGING: 
-                print("on ege")
+           
+            #if edge_hanging currently       
+            elif gamestate.players[PORT_BOT].action == melee.gamestate.enums.Action.EDGE_HANGING: 
                 #if on left edge
                 if(gamestate.players[PORT_BOT].x < (melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 6):
-                     print("on left ege")
                      controller.press_button(melee.Button.BUTTON_X)
                      controller.tilt_analog(melee.Button.BUTTON_MAIN, 1, .5)
                 #if on right edge
                 elif (gamestate.players[PORT_BOT].x > melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] - 6):
-                     print("on right ege")
                      controller.press_button(melee.Button.BUTTON_X)
                      controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, .5)
 
