@@ -3,7 +3,7 @@ import math
 from CharacterData import CharacterData
 from GeneralizedActions import GeneralizedAgent
 
-SLP_PATH = "C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay" # C:\Users\sonic\AppData\Roaming\Slippi Launcher\netplay
+SLP_PATH = "C:/Users/micha/AppData/Roaming/Slippi Launcher/netplay" # C:\Users\sonic\AppData\Roaming\Slippi Launcher\netplay
 PORT_BOT = 1
 PORT_PLR = 2
 

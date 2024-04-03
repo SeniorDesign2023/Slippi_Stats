@@ -73,10 +73,10 @@ if not args.bot:
 console = melee.console.Console(path="C:/Users/micha/AppData/Roaming/Slippi Launcher/netplay",
                                 logger=log)
 
-controller_one = melee.controller.Controller(console=console, port=args.port)
+controller_one = melee.controller.Controller(console=console, port=1)
 controller_two = melee.controller.Controller(console=console,
-                                             port=args.opponent)
-                                             #type=opponent_type)
+                                             port=args.opponent,
+                                             type=opponent_type)
 
 # initialize our agent
 agent1 = CustomAgent(console, args.port, args.opponent, controller_one, args.difficulty)

@@ -64,7 +64,17 @@ while True:
                         controller.tilt_analog(melee.Button.BUTTON_MAIN, .5, .5)
                     else: 
                         controller.tilt_analog(melee.Button.BUTTON_MAIN, int(xdirection), .5)
-                    
+
+            elif gamestate.players[PORT_BOT].action == melee.gamestate.enums.Action.EDGE_HANGING: 
+                #if on left edge
+                if(gamestate.players[PORT_BOT].x < (melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] * -1) + 6):
+                     controller.press_button(melee.Button.BUTTON_X)
+                     controller.tilt_analog(melee.Button.BUTTON_MAIN, 1, .5)
+                #if on right edge
+                elif (gamestate.players[PORT_BOT].x > melee.stages.EDGE_POSITION[melee.Stage.POKEMON_STADIUM] - 6):
+                     controller.press_button(melee.Button.BUTTON_X)
+                     controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, .5)        
+            
             elif gamestate.players[PORT_BOT].off_stage: #fell off map
                  controller.press_button(melee.Button.BUTTON_X)
                  controller.tilt_analog(melee.Button.BUTTON_MAIN, int(not xdirection), 1)
