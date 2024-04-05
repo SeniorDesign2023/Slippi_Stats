@@ -2,12 +2,10 @@
     "SLP_PATH" : "C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay",
     "PORTS" : {
         "SELF" : 0,
-        "OPPS" : [
-            1
-        ],
-        "ALLIES" : [
-            
-        ]
+        "OP1" : 1,
+        "OP2" : null,
+        "AL1" : null,
+        "AL2" : null
     },
     "SELECTED" : {
         "CHARACTER" : melee.Character.DK,
@@ -23,8 +21,7 @@
         "EDGE_GUARD" : "high"
     },
     "SPECIAL" : {
-        "WAVESHINE" : False,   # Must select Fox/Falco to set this either of these as True
-        "MULTISHINE" : False, #
+        "WAVESHINE" : False,
+        "MULTISHINE" : False
     }
 }
-
