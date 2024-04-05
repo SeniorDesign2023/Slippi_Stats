@@ -95,7 +95,11 @@ def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Cont
                 ga.endState(controller)
                 pass
             else:
-                # TODO: change autostart, and check with UI for new parameters on game end
+                # TODO: Check with UI for new parameters on game end
+                if waitFrame != -1:
+                    # Game has ended, new one has started during the same session, break out
+                    return True
+                    
                 melee.MenuHelper.menu_helper_simple(gamestate,
                                                     controller,
                                                     ga.cd.CHARACTER,
@@ -104,4 +108,4 @@ def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Cont
                                                     costume=2,
                                                     autostart=True,
                                                     swag=False)
-                waitFrame = -1 # reset on new game
+                # waitFrame = -1 # reset on new game
