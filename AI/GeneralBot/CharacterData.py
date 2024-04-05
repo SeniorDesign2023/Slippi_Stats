@@ -2,7 +2,7 @@ import melee
 import json
 import os
 from ActionData import ActionData
-d
+
 # dict of Character ID from libmelee to filenames
 characterDict = {
     melee.Character.BOWSER	 : 	'framedata-json-fullhitboxes\Bowser.framedata.json'	,
@@ -29,8 +29,8 @@ characterDict = {
     melee.Character.ROY	 : 	'framedata-json-fullhitboxes\Roy.framedata.json'	,
     melee.Character.SAMUS	 : 	'framedata-json-fullhitboxes\Samus.framedata.json'	,
     melee.Character.SHEIK	 : 	'framedata-json-fullhitboxes\Sheik.framedata.json'	,
-    melee.Character.YLINK	 : 	'framedata-json-fullhitboxes\Yoshi.framedata.json'	,
-    melee.Character.YOSHI	 : 	'framedata-json-fullhitboxes\Young Link.framedata.json'	,
+    melee.Character.YLINK	 : 	'framedata-json-fullhitboxes\Young Link.framedata.json'	,
+    melee.Character.YOSHI	 : 	'framedata-json-fullhitboxes\Yoshi.framedata.json'	,
     melee.Character.ZELDA	 : 	'framedata-json-fullhitboxes\Zelda.framedata.json'
     }
 
