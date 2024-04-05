@@ -1,15 +1,12 @@
 {
-    "SLP_PATH" : "C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay",
-    "PORTS" : {
-        "SELF" : 0,
-        "OP1" : 1,
-        "OP2" : null,
-        "AL1" : null,
-        "AL2" : null
+    "SLP" : {
+        "PATH" : "C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay",
+        "PORT_BOT" : 0,
+        "PORT_OPP" : 1
     },
     "SELECTED" : {
-        "CHARACTER" : melee.Character.DK,
-        "STAGE" : melee.Stages.BATTLEFIELD
+        "CHARACTER" : 3,
+        "STAGE" : 24
     },
     "OPTIONS" : {
         "FRAME_DELAY" : 0,
@@ -17,11 +14,11 @@
         "TECH_RATE" : 0.8,
         "PLAYSTYLE" : "aggressive",
         "ATTACK_STYLE" : "aerial",
-        "PERFECT_RECOVERY" : True,
+        "PERFECT_RECOVERY" : true,
         "EDGE_GUARD" : "high"
     },
     "SPECIAL" : {
-        "WAVESHINE" : False,
-        "MULTISHINE" : False
+        "WAVESHINE" : false,
+        "MULTISHINE" : false
     }
 }
