@@ -31,7 +31,7 @@ characterDict = {
     melee.Character.SHEIK	 : 	'framedata-json-fullhitboxes\Sheik.framedata.json'	,
     melee.Character.YLINK	 : 	'framedata-json-fullhitboxes\Yoshi.framedata.json'	,
     melee.Character.YOSHI	 : 	'framedata-json-fullhitboxes\Young Link.framedata.json'	,
-    melee.Character.ZELDA	 : 	'framedata-json-fullhitboxes\Zelda.framedata.json'	,
+    melee.Character.ZELDA	 : 	'framedata-json-fullhitboxes\Zelda.framedata.json'
     }
 
 
