@@ -26,7 +26,7 @@ characterDict = {
     melee.Character.PICHU	 : 	'framedata-json-fullhitboxes\Pichu.framedata.json'	,
     melee.Character.PIKACHU	 : 	'framedata-json-fullhitboxes\Pikachu.framedata.json'	,
     melee.Character.POPO	 : 	'framedata-json-fullhitboxes\Ice Climbers - Popo.framedata.json'	,
-    melee.Character.ROY	 : 	'framedata-json-fullhitboxes\Roy.framedata.json'	,
+    melee.Character.ROY	     : 	'framedata-json-fullhitboxes\Roy.framedata.json'	,
     melee.Character.SAMUS	 : 	'framedata-json-fullhitboxes\Samus.framedata.json'	,
     melee.Character.SHEIK	 : 	'framedata-json-fullhitboxes\Sheik.framedata.json'	,
     melee.Character.YLINK	 : 	'framedata-json-fullhitboxes\Young Link.framedata.json'	,
