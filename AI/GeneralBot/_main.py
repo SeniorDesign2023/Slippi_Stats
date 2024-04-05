@@ -3,31 +3,57 @@ from CharacterData import CharacterData
 from GeneralizedAgent import GeneralizedAgent
 from TestBot import testRun
 
-SLP_PATH = "C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay" # C:\Users\sonic\AppData\Roaming\Slippi Launcher\netplay
-PORT_BOT = 1
-PORT_PLR = 2
-                
-print('Starting GeneralBot')
+class BotManager:
+  def __init__(self):
+    self.config = None
+    self.console = None
+    self.SLF_controller = None
+    self.OP1_controller = None
+    self.OP2_controller = None
+    self.AL1_controller = None
+    self.AL2_controller = None
 
-# Init melee classes
-console = melee.Console(path=SLP_PATH)
-character_bot = melee.Character.DK
-stage_selected = melee.Stage.BATTLEFIELD
-controller = melee.Controller(console=console, port=PORT_BOT)
-controller_human = melee.Controller(console=console,
-                                    port=PORT_PLR,
-                                    type=melee.ControllerType.GCN_ADAPTER)
+  def readConfigs(self, filePaths: list):
+    for fp in filePaths:
+    f = open(fp, "r")
+    c: dict = json.load(f)
+    f.close
+    return c
+
+  def connect(self):
+    # Init Slippi classes
+    if self.console == None:
+      console = melee.Console(path=self.config["SLP"]["PATH"])
+
+    if self.config["PORTS"]["SELF"] == None
+    controller = melee.Controller(console=console, port=self.config["SLP"]["PORT_BOT"])
+    controller_human = melee.Controller(console=console,
+                                        port=self.config["SLP"]["PORT_PLR"],
+                                        type=melee.ControllerType.GCN_ADAPTER)
+        
+    # Connect and run bot
+    console.run()
+    console.connect()
+    controller.connect()
+    controller_human.connect()
+
+  def run(self, callBack):
+    print('Starting GeneralBot')
+    self.config = self.readConfig(configPath)
+    if self.config == None:
+      return "No config"
     
-# Connect and run bot
-console.run()
-console.connect()
-controller.connect()
-controller_human.connect()
-
-# Init and check bot data
-charData = CharacterData(character_bot, stage_selected, PORT_BOT, PORT_PLR)
-agent = GeneralizedAgent(charData)
-
-# Perform test run
-testRun(agent, console, controller)
+    
+    
+    # Init Melee classes
+    character_bot = self.config["SELECTED"]["STAGE"]
+    stage_selected = self.config["SELECTED"]["STAGE"]
+    
+    # Init and check bot data
+    charData = CharacterData(character_bot, stage_selected, PORT_BOT, PORT_PLR)
+    agent = GeneralizedAgent(charData)
+    
+    # Run bot until passed back
+    gameState = testRun(agent, console, controller)
+    if self.callBack(gameState)
 
