@@ -13,7 +13,7 @@ def positionVector(start_x: float, start_y: float, end_x: float, end_y: float):
 def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Controller):
         print("TESTING (console & controllers must already be connected to test!)")
 
-        TODO: Utilize new CharacterData and ActionData features to generate and verify proper action list
+        # TODO: Utilize new CharacterData and ActionData features to generate and verify proper action list
         actionsGround = [ga.jab, ga.ftil_l, ga.fsmash, ga.dsmash]
         actionsAir = [ga.uair, ga.nair, ga.bair, ga.dair]
         doGround = False
@@ -95,6 +95,7 @@ def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Cont
                 ga.endState(controller)
                 pass
             else:
+                # TODO: change autostart, and check with UI for new parameters on game end
                 melee.MenuHelper.menu_helper_simple(gamestate,
                                                     controller,
                                                     ga.cd.CHARACTER,
