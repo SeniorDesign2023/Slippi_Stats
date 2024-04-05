@@ -6,8 +6,8 @@ import melee
 from melee.enums import Action, Button
 from Chains.chain import Chain
 
-class Archer(Chain):
-    "Link's Standing Neutral B, Full Charge"
+class NeutralB(Chain):
+    "Charges and activates neutral B"
     def __init__(self):
         self.interruptible = True
 
@@ -22,13 +22,13 @@ class Archer(Chain):
             return
 
 
-        #now make sure it's not a side B. this is the bow, not the boomerang
+        #now make sure it's not a side B. 
         if custombot_state.action == Action.DASHING:
             self.interruptible = True
             controller.tilt_analog(Button.BUTTON_MAIN, int(not custombot_state.facing), 0.5)
             return
         
-        #finally, we're standing still. charge until full then fire
+        #finally, we're standing still or only moving vertically. charge until full then fire
         #might still be bugged. debug here first
         if custombot_state.action in [Action.STANDING, Action.FALLING]:
             if custombot_state.action_frame == 1:
