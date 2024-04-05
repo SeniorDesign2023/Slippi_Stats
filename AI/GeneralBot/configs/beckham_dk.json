@@ -1,0 +1,25 @@
+{
+    "SLP" : {
+        "PATH" : "C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay",
+        "PORT_BOT" : 0,
+        "PORT_PLR" : 1
+    },
+    "SELECTED" : {
+        "CHARACTER" : melee.Character.DK,
+        "STAGE" : melee.Stages.BATTLEFIELD
+    },
+    "OPTIONS" : {
+        "FRAME_DELAY" : 0,
+        "LCNCL_RATE" : 0.8,
+        "TECH_RATE" : 0.8,
+        "PLAYSTYLE" : "aggressive",
+        "ATTACK_STYLE" : "aerial",
+        "PERFECT_RECOVERY" : True,
+        "EDGE_GUARD" : "high"
+    },
+    "SPECIAL" : {
+        "WAVESHINE" : False,   # Must select Fox/Falco to set this either of these as True
+        "MULTISHINE" : False, #
+    }
+}
+
