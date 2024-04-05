@@ -4,9 +4,6 @@
 # Visit https://docs.python.org/3/library/tkinter.html for documentation
 # Using pack as the LayoutManager
 
-# I am aware that global variables are bad coding practice but are you aware
-# that I am a bad coder?
-
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import *
@@ -15,6 +12,7 @@ from PIL import Image, ImageTk
 import pathlib
 from pathlib import Path
 import os
+from GeneralBot.BotManager import BotManager
 
 def main():
     # Initialize Window
