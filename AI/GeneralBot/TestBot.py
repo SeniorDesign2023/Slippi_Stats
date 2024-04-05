@@ -12,7 +12,8 @@ def positionVector(start_x: float, start_y: float, end_x: float, end_y: float):
 # Test run agent
 def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Controller):
         print("TESTING (console & controllers must already be connected to test!)")
-        
+
+        TODO: Utilize new CharacterData and ActionData features to generate and verify proper action list
         actionsGround = [ga.jab, ga.ftil_l, ga.fsmash, ga.dsmash]
         actionsAir = [ga.uair, ga.nair, ga.bair, ga.dair]
         doGround = False
@@ -34,12 +35,12 @@ def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Cont
                 
                 if waitFrame <= gamestate.frame: # non-interupting decisions
                     
-                    # Enemy death
+                    # TODO: Enemy death, can be separated into Tactic
                     if ga.es.action.value < 14: # Death animations, or on halo
                         controller.tilt_analog(melee.Button.BUTTON_MAIN, int(0 > ga.ps.position.x), int(ga.ps.position.y < 0))    
                         ga.hop_to_y(controller, 25, 50)
                                    
-                    # Off stage
+                    # TODO: Off stage, can be separated into Tactic
                     if ga.ps.off_stage:
                         print("OFF STAGE", end="\r")
                         if ga.ps.jumps_left > 0: # we have jumps
@@ -65,7 +66,8 @@ def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Cont
                                 waitFrame = gamestate.frame + 4
                             elif abs(ga.ps.position.x) - ga.cd.RIGHT_EDGE_X < 50: # if we're near edge, make sure we don't hold down and fall through
                                 controller.tilt_analog_unit(melee.Button.BUTTON_MAIN,controller.current.main_stick[0], max(controller.current.main_stick[1], -0.5))
-                    
+
+                    # TODO: Below can be separated into an approach Tactic
                     # attacking, fast fall
                     elif not ga.ps.on_ground and (ga.at == melee.AttackState.ATTACKING or melee.AttackState.WINDUP):
                         if ga.ffall(controller):
