@@ -11,7 +11,11 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 import pathlib
 from pathlib import Path
+import json
+import os
 from GeneralBot.BotManager import BotManager
+
+WINDOW_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "window.json")
 
 # TODO 1: Select JSON files and pass to BotManager
 # TODO 2: Make buttons/fields/menus that visualize the JSON paramaterse (see GeneralBot/configs)
@@ -19,6 +23,17 @@ from GeneralBot.BotManager import BotManager
 # TODO 3: Make visualized JSON fields (or a subset) editable, and save to existing or new JSON in GeneralBot/configs
 # TODO 4: Pretty up the UI
 # TODO 5: Pretty up the code
+
+
+
+def getSlippiPath():
+    try:
+        f = open(WINDOW_CONFIG_PATH, "r")
+        c: dict = json.load(f)
+        f.close
+        return c["SLP_PATH"]
+    except:
+        return None
 
 def main():
     # Initialize Window
@@ -101,7 +116,7 @@ def clearImage():
 def runSlippi():
     # TODO 1: Pass filePath of JSON to BotMan.run
     BotMan = BotManager()
-    res = BotMan.run()
+    res = BotMan.run(getSlippiPath()) # <--- pass the SLIPPI path here and JSON path
     print("Game end!")
     print(res[0])
     print(res[1])

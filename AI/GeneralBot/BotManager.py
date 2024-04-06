@@ -58,9 +58,9 @@ class BotManager:
         except:
             return None
 
-    def run(self, fp: str = 'C:/Users/sonic/Documents/Senior Design/Slippi_Stats/AI/GeneralBot/configs/beckham_dk.json'):
+    def run(self, SLIPPI_PATH: str = "C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay", JSON_PATH: str = 'C:/Users/sonic/Documents/Senior Design/Slippi_Stats/AI/GeneralBot/configs/beckham_dk.json'):
         print('Running GeneralBot')
-        self.config = self.readConfig(fp)
+        self.config = self.readConfig(JSON_PATH)
         if self.config == None:
             return ("fail: failed to read json", None)
 
@@ -68,9 +68,8 @@ class BotManager:
         port_opp = self.config["SLP"]["PORT_OPP"]
         selected_character: melee.Character = shit[self.config["SELECTED"]["CHARACTER"]]
         selected_stage: melee.Stage = shit2[self.config["SELECTED"]["STAGE"]]
-        path = self.config["SLP"]["PATH"]
 
-        testRun(path, selected_character, selected_stage, port_bot, port_opp)
+        testRun(SLIPPI_PATH, selected_character, selected_stage, port_bot, port_opp)
         return ("success", None)
 
 # Test with entry point at this file

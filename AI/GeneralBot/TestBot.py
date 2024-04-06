@@ -61,32 +61,33 @@ def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self
                                    
                     # TODO: Off stage, can be separated into Tactic
                     if ga.ps.off_stage:
+                        edgeVec = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*int(ga.ps.position.x > 0), 0) # vector to nearest edge
                         print("OFF STAGE", end="\r")
                         if ga.ps.jumps_left > 0: # we have jumps
                             if ga.at == melee.AttackState.COOLDOWN or ga.es.hitstun_frames_left > 0: # off stage and attempted hit
-                                controller.tilt_analog(melee.Button.BUTTON_MAIN, int(0 > ga.ps.position.x), int(ga.ps.position.y < 0))
+                                controller.tilt_analog(melee.Button.BUTTON_MAIN, edgeVec[0], edgeVec[1])
                             elif ga.at == melee.AttackState.ATTACKING or ga.at == melee.AttackState.WINDUP: # we're attacking and haven't hit, drift into enemy
                                 p = positionVector(ga.ps.position.x, ga.ps.position.y, ga.es.position.x, ga.es.position.y)
-                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], p[1])
+                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, edgeVec[0], edgeVec[1])
                                 ga.hop_to_y(controller, ga.es.position.y, 50)
                             else:  # we have not attempted an attack
-                                if abs(ga.es.position.x) > abs(ga.ps.position.x) and ga.gs.distance < 50: # enemy is further off edge, and close
-                                    if ga.nair(controller): #TODO: choose longest lasting aerial
+                                if abs(ga.es.position.x) > abs(ga.ps.position.x) and ga.gs.distance < 50 and ga.ps.position.y > 0: # enemy is further off edge, were above 0, and close
+                                    if ga.nair(controller): #TODO: choose quickest actionable aerial
                                         print("EDGE ATTACK", end="\r")
                                         waitFrame = gamestate.frame + 2
                                 else: # jump to ledge
-                                    p = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*int(ga.ps.position.x > 0), 0) # vector to nearest edge
-                                    controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], max(p[1], -0.5))
+                                    p = positionVector(ga.ps.position.x, ga.ps.position.y, edgeVec[0], edgeVec[1]) # vector to nearest edge
+                                    controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, edgeVec[0], max(edgeVec[1], -0.5))
                                     ga.hop_to_y(controller, 0, 10)
                         else: # no jumps
                             if abs(ga.ps.position.x) - ga.cd.RIGHT_EDGE_X < 25 and ga.ps.y > 10: # if we're near edge, make sure we don't hold down and fall through
                                 p = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*int(ga.ps.position.x > 0), 0) # vector to nearest edge
-                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN,p[0], max(p[1], -0.5))
+                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN,edgeVec[0], max(edgeVec[1], -0.5))
                             elif ga.cd.FD.frames_until_dj_apex(ga.ps) > 0:
                                 ga.hop_to_y(controller, 0, 10) # continue jump
                             elif not ga.upb(controller): # up B to edge
                                 p = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*int(ga.ps.position.x > 0), 0) # vector to nearest edge
-                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], p[1])
+                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, edgeVec[0], edgeVec[1])
                                 waitFrame = gamestate.frame + 4
                             
 

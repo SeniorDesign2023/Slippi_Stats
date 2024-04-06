@@ -93,9 +93,7 @@ class GeneralizedAgent:
     def checkCStickRelease(self, ct: melee.Controller):
         if not (ct.current.c_stick[0] == 0.5 and ct.current.c_stick[1] == 0.5):
             print("release C", end="\r")
-            print(ct.current.c_stick)
             ct.tilt_analog(melee.Button.BUTTON_C,0.5, 0.5)
-            print(ct.current.c_stick)
             return True
         return False
     
@@ -205,9 +203,9 @@ class GeneralizedAgent:
     ### AERIALS ###      
     def uair(self, ct: melee.Controller): # up air (uses c-stick)
         if self.checkCStickRelease(ct) or self.checkButtonRelease(ct, melee.Button.BUTTON_A): return False
-        print("\nuair btns free")
+        print("\nuair btns free", end="\r")
         if not self.ps.on_ground and self.at == melee.AttackState.NOT_ATTACKING:
-            print("\nuair true")
+            print("\nuair true", end="\r")
             ct.tilt_analog(melee.Button.BUTTON_C, 0.5, 1)
             #self.appendTilt_unit(2, melee.Button.BUTTON_C, 0, 0)
             return True
