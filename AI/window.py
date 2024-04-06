@@ -11,8 +11,14 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 import pathlib
 from pathlib import Path
-import os
 from GeneralBot.BotManager import BotManager
+
+# TODO 1: Select JSON files and pass to BotManager
+# TODO 2: Make buttons/fields/menus that visualize the JSON paramaterse (see GeneralBot/configs)
+# TODO 2.5: Edit the JSON "CHARACTER" field based on the selected character
+# TODO 3: Make visualized JSON fields (or a subset) editable, and save to existing or new JSON in GeneralBot/configs
+# TODO 4: Pretty up the UI
+# TODO 5: Pretty up the code
 
 def main():
     # Initialize Window
@@ -93,8 +99,10 @@ def clearImage():
     label1.config(image = "")
 
 def runSlippi():
+    # TODO: Pass filePath of JSON to BotMan.run
     BotMan = BotManager()
     res = BotMan.run()
+    print("Game end!")
     print(res[0])
     print(res[1])
     

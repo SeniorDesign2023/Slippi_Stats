@@ -80,12 +80,16 @@ def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self
                                     controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], max(p[1], -0.5))
                                     ga.hop_to_y(controller, 0, 10)
                         else: # no jumps
-                            if not ga.upb(controller): # up B to edge
+                            if abs(ga.ps.position.x) - ga.cd.RIGHT_EDGE_X < 25 and ga.ps.y > 10: # if we're near edge, make sure we don't hold down and fall through
+                                p = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*int(ga.ps.position.x > 0), 0) # vector to nearest edge
+                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN,p[0], max(p[1], -0.5))
+                            elif ga.cd.FD.frames_until_dj_apex(ga.ps) > 0:
+                                ga.hop_to_y(controller, 0, 10) # continue jump
+                            elif not ga.upb(controller): # up B to edge
                                 p = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*int(ga.ps.position.x > 0), 0) # vector to nearest edge
                                 controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], p[1])
                                 waitFrame = gamestate.frame + 4
-                            elif abs(ga.ps.position.x) - ga.cd.RIGHT_EDGE_X < 50: # if we're near edge, make sure we don't hold down and fall through
-                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN,controller.current.main_stick[0], max(controller.current.main_stick[1], -0.5))
+                            
 
                     # TODO: Below can be separated into an approach Tactic
                     # attacking, fast fall
@@ -133,4 +137,5 @@ def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self
                 )
                 waitFrame = -1 # reset on new game
 
+# Test with entry point at this file
 testRun("C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay", melee.Character.DK, melee.Stage.BATTLEFIELD, 1, 2) 

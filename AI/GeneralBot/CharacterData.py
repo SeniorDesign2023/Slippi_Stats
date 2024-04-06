@@ -81,29 +81,6 @@ class CharacterData:
         self.MAX_JUMPS = self.FD.max_jumps(character)
         self.RIGHT_EDGE_X = melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
         self.LEFT_EDGE_X = -melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
-        self.PLAT_RIGHT = melee.stages.right_platform_position(
-            self.STAGE_SELECTED)
-        self.PLAT_LEFT = melee.stages.left_platform_position(
-            self.STAGE_SELECTED)
-
-        GR_ATTACK_FIRSTFRAME = sorted(
-            groundedAttacks, key=lambda ac: self.FD.first_hitbox_frame(character, ac.value))
-        self.GR_ATT_FIRSTFRAME = dict(map(lambda ac: (
-            ac.name, self.FD.first_hitbox_frame(character, ac)), GR_ATTACK_FIRSTFRAME))
-
-        GR_ATTACK_LEASTFRAME = sorted(
-            GR_ATTACK_FIRSTFRAME, key=lambda ac: self.FD.iasa(character, ac))
-        self.GR_ATT_LEASTFRAME = dict(
-            map(lambda ac: (ac.name, self.FD.iasa(character, ac)), GR_ATTACK_LEASTFRAME))
-
-        GR_ATTACK_MOSTFRAME = sorted(GR_ATTACK_FIRSTFRAME, key=lambda ac: self.FD.last_hitbox_frame(
-            character, ac) - self.FD.first_hitbox_frame(character, ac))
-        self.GR_ATT_MOSTFRAME = dict(map(lambda ac: (ac.name, self.FD.last_hitbox_frame(
-            character, ac) - self.FD.first_hitbox_frame(character, ac)), GR_ATTACK_MOSTFRAME))
-
-        print(self.GR_ATT_FIRSTFRAME)
-        print(self.GR_ATT_LEASTFRAME)
-        print(self.GR_ATT_MOSTFRAME)
 
         f = open(os.path.join(os.path.dirname(__file__),
                  characterDict[self.CHARACTER]), "r")
