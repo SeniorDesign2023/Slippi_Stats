@@ -2,7 +2,7 @@ import melee
 import json
 import os
 from ActionData import ActionData
-
+#from GeneralBot.ActionData import ActionData
 # dict of Character ID from libmelee to filenames
 characterDict = {
     melee.Character.BOWSER: 	'framedata-json-fullhitboxes/Bowser.framedata.json',
@@ -74,6 +74,13 @@ class CharacterData:
         self.MAX_JUMPS = self.FD.max_jumps(character)
         self.RIGHT_EDGE_X = melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
         self.LEFT_EDGE_X = -melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
+        
+        f = open(os.path.join(os.path.dirname(__file__), characterDict[self.CHARACTER]), "r")
+        self.PORT_SELF = PORT_SELF
+        self.PORT_ENEMY = PORT_ENEMY
+        self.MAX_JUMPS = self.FD.max_jumps(character)
+        self.RIGHT_EDGE_X = melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
+        self.LEFT_EDGE_X = -melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
         self.PLAT_RIGHT = melee.stages.right_platform_position(
             self.STAGE_SELECTED)
         self.PLAT_LEFT = melee.stages.left_platform_position(
@@ -102,6 +109,8 @@ class CharacterData:
                  characterDict[self.CHARACTER]), "r")
         betterFrameData: dict = json.load(f)
         f.close
+        
+        self.groundAtt = dict(groundedAttacks)
 
         self.groundAtt = dict(groundedAttacks,)
         self.aerialAtt = dict(aerialAttacks)

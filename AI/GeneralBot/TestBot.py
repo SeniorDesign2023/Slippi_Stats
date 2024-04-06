@@ -1,6 +1,8 @@
 import melee
 import math
 import random
+#from GeneralBot.GeneralizedAgent import GeneralizedAgent
+from CharacterData import CharacterData
 from GeneralizedAgent import GeneralizedAgent
 
 # get vector from position
@@ -10,9 +12,27 @@ def positionVector(start_x: float, start_y: float, end_x: float, end_y: float):
     return (-distance[0] / norm, -distance[1] / norm)
 
 # Test run agent
-def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Controller):
+def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self: int, port_opp: int):
         print("TESTING (console & controllers must already be connected to test!)")
+        
+        console = melee.Console(path=path)
+        controller = melee.Controller(console=console, port=port_self)
+        controller_h = melee.Controller(console=console, port=port_opp, type=melee.ControllerType.GCN_ADAPTER)
+                
+        cd = CharacterData(character, stage, port_self, port_opp)
+        ga = GeneralizedAgent(cd)
+        
+        print("Connecting to console")
+        console.run()
+        if not console.connect():
+            print("ERROR: Failed to connect to the console.")
+            return("failed: couldn't connect to console" , None)
 
+        print("Connecting controller(s)")
+        if not controller.connect() and controller_h.connect():
+            print("ERROR: Failed to connect the controller(s).")
+            return("failed: couldn't connect controllers" , None)
+        
         # TODO: Utilize new CharacterData and ActionData features to generate and verify proper action list
         actionsGround = [ga.jab, ga.ftil_l, ga.fsmash, ga.dsmash]
         actionsAir = [ga.uair, ga.nair, ga.bair, ga.dair]
@@ -51,7 +71,7 @@ def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Cont
                                 controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], p[1])
                                 ga.hop_to_y(controller, ga.es.position.y, 50)
                             else:  # we have not attempted an attack
-                                if abs(ga.es.position.x)-abs(ga.ps.position.x) < 50: # enemy is further off edge, and close
+                                if abs(ga.es.position.x) > abs(ga.ps.position.x) and ga.gs.distance < 50: # enemy is further off edge, and close
                                     if ga.nair(controller): #TODO: choose longest lasting aerial
                                         print("EDGE ATTACK", end="\r")
                                         waitFrame = gamestate.frame + 2
@@ -100,12 +120,17 @@ def testRun(ga: GeneralizedAgent, console: melee.Console, controller: melee.Cont
                     # Game has ended, new one has started during the same session, break out
                     return True
                     
-                melee.MenuHelper.menu_helper_simple(gamestate,
-                                                    controller,
-                                                    ga.cd.CHARACTER,
-                                                    ga.cd.STAGE_SELECTED,
-                                                    "",
-                                                    costume=2,
-                                                    autostart=True,
-                                                    swag=False)
-                # waitFrame = -1 # reset on new game
+                melee.MenuHelper.menu_helper_simple(
+                    gamestate=gamestate,
+                    controller=controller,
+                    character_selected=ga.cd.CHARACTER,
+                    stage_selected=ga.cd.STAGE_SELECTED,
+                    connect_code="",
+                    cpu_level=0,
+                    costume=2,
+                    autostart=True,
+                    swag=False
+                )
+                waitFrame = -1 # reset on new game
+
+testRun("C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay", melee.Character.DK, melee.Stage.BATTLEFIELD, 1, 2) 

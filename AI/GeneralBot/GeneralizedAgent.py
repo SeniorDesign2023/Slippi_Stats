@@ -1,7 +1,7 @@
 import melee
 import sys
 from CharacterData import CharacterData
-
+#from GeneralBot.CharacterData import CharacterData
 class GeneralizedAgent:
     def __init__(self, cd: CharacterData):
         
@@ -174,7 +174,7 @@ class GeneralizedAgent:
     
     def platFall(self, ct: melee.Controller):
         print("\nPLAT START", end="\r")
-        if self.ps.position.y >= self.cd.PLAT_LEFT[0]:
+        if self.ps.position.y >= melee.stages.left_platform_position(self.gs)[0]:
             if self.ps.on_ground:
                 # We want to plat fall, implies we will perform a move after the fall, release everything BUT main stick
                 ct.release_button(melee.Button.BUTTON_A)
