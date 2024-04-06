@@ -99,7 +99,7 @@ def clearImage():
     label1.config(image = "")
 
 def runSlippi():
-    # TODO: Pass filePath of JSON to BotMan.run
+    # TODO 1: Pass filePath of JSON to BotMan.run
     BotMan = BotManager()
     res = BotMan.run()
     print("Game end!")
