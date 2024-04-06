@@ -74,5 +74,5 @@ class BotManager:
         return ("success", None)
 
 # Test with entry point at this file
-bm = BotManager()
-bm.run()
+#bm = BotManager()
+#bm.run()

@@ -137,4 +137,4 @@ def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self
                 waitFrame = -1 # reset on new game
 
 # Test with entry point at this file
-testRun("C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay", melee.Character.DK, melee.Stage.BATTLEFIELD, 1, 2) 
+#testRun("C:/Users/sonic/AppData/Roaming/Slippi Launcher/netplay", melee.Character.DK, melee.Stage.BATTLEFIELD, 1, 2) 
