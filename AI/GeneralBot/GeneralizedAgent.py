@@ -1,7 +1,7 @@
 import melee
 import sys
-from CharacterData import CharacterData
-#from GeneralBot.CharacterData import CharacterData
+from GeneralBot.CharacterData import CharacterData
+
 class GeneralizedAgent:
     def __init__(self, cd: CharacterData):
         

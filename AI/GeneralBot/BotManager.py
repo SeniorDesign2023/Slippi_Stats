@@ -2,7 +2,7 @@ import melee
 import json
 
 # from GeneralBot.TestBot import testRun
-from TestBot import testRun
+from GeneralBot.TestBot import testRun
 
 shit = {
     5: melee.Character.BOWSER,

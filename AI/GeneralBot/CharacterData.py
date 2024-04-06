@@ -1,7 +1,8 @@
 import melee
 import json
 import os
-from ActionData import ActionData
+from GeneralBot.ActionData import ActionData
+
 #from GeneralBot.ActionData import ActionData
 # dict of Character ID from libmelee to filenames
 characterDict = {

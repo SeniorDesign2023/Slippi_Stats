@@ -1,9 +1,8 @@
 import melee
 import math
 import random
-#from GeneralBot.GeneralizedAgent import GeneralizedAgent
-from CharacterData import CharacterData
-from GeneralizedAgent import GeneralizedAgent
+from GeneralBot.CharacterData import CharacterData
+from GeneralBot.GeneralizedAgent import GeneralizedAgent
 
 # get vector from position
 def positionVector(start_x: float, start_y: float, end_x: float, end_y: float):
