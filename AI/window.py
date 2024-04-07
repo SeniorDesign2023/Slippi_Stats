@@ -30,8 +30,17 @@ def getSlippiPath():
     try:
         f = open(WINDOW_CONFIG_PATH, "r")
         c: dict = json.load(f)
-        f.close
+        f.close()
         return c["SLP_PATH"]
+    except:
+        return None
+
+def getJSONPath():
+    try:
+        f = open(WINDOW_CONFIG_PATH, "r")
+        c: dict = json.load(f)
+        f.close()
+        return c["JSON_PATH"]
     except:
         return None
 
@@ -116,7 +125,8 @@ def clearImage():
 def runSlippi():
     # TODO 1: Pass filePath of JSON to BotMan.run
     BotMan = BotManager()
-    res = BotMan.run(getSlippiPath()) # <--- pass the SLIPPI path here and JSON path
+
+    res = BotMan.run(getSlippiPath(),getJSONPath()) # <--- pass the SLIPPI path here and JSON path
     print("Game end!")
     print(res[0])
     print(res[1])
@@ -132,3 +142,5 @@ def browseFiles():
     label_file_explorer.configure(text="File Opened: "+filename)
 
 main()
+
+
