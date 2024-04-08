@@ -1,3 +1,19 @@
+## DO NOT USE THIS WINDOW, USE ONE IN AI FOLDER
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### MAIN WINDOW ###
 
 # Using tkinter version 8.6
