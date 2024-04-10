@@ -11,13 +11,15 @@ def positionVector(start_x: float, start_y: float, end_x: float, end_y: float):
     return (-distance[0] / norm, -distance[1] / norm)
 
 # Test run agent
-def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self: int, port_opp: int):
+def testStrategy(path: str, character: melee.Character, stage: melee.Stage, port_self: int, port_opp: int):
         print("TESTING (console & controllers must already be connected to test!)")
         
         console = melee.Console(path=path)
         controller = melee.Controller(console=console, port=port_self)
-        controller_h = melee.Controller(console=console, port=port_opp, type=melee.ControllerType.GCN_ADAPTER)
-                
+        
+        # controller_h = melee.Controller(console=console, port=port_opp, type=melee.ControllerType.GCN_ADAPTER)
+        # non necessary, creates bugs for non GCC users  
+
         cd = CharacterData(character, stage, port_self, port_opp)
         ga = GeneralizedAgent(cd)
         
@@ -28,15 +30,16 @@ def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self
             return("failed: couldn't connect to console" , None)
 
         print("Connecting controller(s)")
-        if not controller.connect() and controller_h.connect():
+        if not controller.connect():
             print("ERROR: Failed to connect the controller(s).")
             return("failed: couldn't connect controllers" , None)
         
         # TODO: Utilize new CharacterData and ActionData features to generate and verify proper action list
+        # Dogshit functions below for testing, not to be duplicated in further bots
         actionsGround = [ga.jab, ga.ftil_l, ga.fsmash, ga.dsmash]
         actionsAir = [ga.uair, ga.nair, ga.bair, ga.dair]
-        doGround = False
         att = actionsAir[0]
+
         waitFrame = -1
         
         while(True):
@@ -51,16 +54,30 @@ def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self
             if gamestate.menu_state in [melee.Menu.IN_GAME, melee.Menu.SUDDEN_DEATH]:
                 ga.nextState(gamestate)
                 ga.printAgent(controller, att)
-                
-                if waitFrame <= gamestate.frame: # non-interupting decisions
+
+                ### NON INTERUPTABLE ###
+                # TODO
+                # put interupting actions here
+                # i.e. if hit, or l-cancel, or shield
+
+                ### INTERUPTABLE ####
+
+                if waitFrame <= gamestate.frame: # post-wait chains
+                    
+                    if ga.callback != False: # callback chains, can modify waitFrame
+                        waitFrame = gamestate.frame + ga.callback(controller)
                     
                     # TODO: Enemy death, can be separated into Tactic
-                    if ga.es.action.value < 14: # Death animations, or on halo
+                    elif ga.es.action.value < 14: # Death animations, or on halo
                         controller.tilt_analog(melee.Button.BUTTON_MAIN, int(0 > ga.ps.position.x), int(ga.ps.position.y < 0))    
                         ga.hop_to_y(controller, 25, 50)
                                    
+                    elif ga.ps.action == melee.Action.EDGE_HANGING:
+                        ga.callback = ga.looping_ledgeDash
+                        waitFrame = gamestate.frame + ga.looping_ledgeDash(controller)
+
                     # TODO: Off stage, can be separated into Tactic
-                    if ga.ps.off_stage:
+                    elif ga.ps.off_stage:
                         edgeVec = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*int(ga.ps.position.x > 0), 0) # vector to nearest edge
                         print("OFF STAGE", end="\r")
                         if ga.ps.jumps_left > 0: # we have jumps
@@ -116,6 +133,7 @@ def testRun(path: str, character: melee.Character, stage: melee.Stage, port_self
                 else:
                     if waitFrame == -1:  # new game            
                         controller.release_all()
+
                 ga.endState(controller)
                 pass
             else:

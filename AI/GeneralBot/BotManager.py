@@ -2,7 +2,7 @@ import melee
 import json
 
 # from GeneralBot.TestBot import testRun
-from GeneralBot.TestBot import testRun
+from GeneralBot.Strategies.testStrategy import testStrategy
 
 shit = {
     5: melee.Character.BOWSER,
@@ -69,7 +69,7 @@ class BotManager:
         selected_character: melee.Character = shit[self.config["SELECTED"]["CHARACTER"]]
         selected_stage: melee.Stage = shit2[self.config["SELECTED"]["STAGE"]]
 
-        testRun(SLIPPI_PATH, selected_character, selected_stage, port_bot, port_opp)
+        testStrategy(SLIPPI_PATH, selected_character, selected_stage, port_bot, port_opp)
         return ("success", None)
 
 # Test with entry point at this file

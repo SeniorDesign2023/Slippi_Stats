@@ -40,7 +40,8 @@ def getJSONPath():
         f = open(WINDOW_CONFIG_PATH, "r")
         c: dict = json.load(f)
         f.close()
-        return c["JSON_PATH"]
+        fullpath = os.path.join(os.path.dirname(__file__),c["JSON_PATH"])# This path always is relative, we don't need
+        return fullpath                                                  # to store the whole path. Just Slippi.
     except:
         return None
 

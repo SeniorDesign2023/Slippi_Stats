@@ -9,10 +9,10 @@ class GeneralizedAgent:
         
         # maps from Actions to GeneralizedAgent functions
         self.defensiveAttacks   = {
-            melee.Action.GETUP_ATTACK       : self.gtattack,
-            melee.Action.EDGE_ATTACK_QUICK  : self.gtattack,
-            melee.Action.EDGE_ATTACK_SLOW   : self.gtattack,
-            melee.Action.GROUND_ATTACK_UP   : self.gtattack
+            melee.Action.GETUP_ATTACK       : self.getupAttack,
+            melee.Action.EDGE_ATTACK_QUICK  : self.getupAttack,
+            melee.Action.EDGE_ATTACK_SLOW   : self.getupAttack,
+            melee.Action.GROUND_ATTACK_UP   : self.getupAttack
             }
         
         self.groundedAttacks    = {
@@ -35,14 +35,19 @@ class GeneralizedAgent:
             melee.Action.NAIR : self.nair
             }
         
-        self.gs = melee.GameState()     # game state
-        self.ps = melee.PlayerState()   # self player state
-        self.es = melee.PlayerState()   # enemy player state
-        self.at = melee.AttackState(3)   # Attack state
+        self.gs = melee.GameState()         # game state
+        self.ps = melee.PlayerState()       # self player state
+        self.es = melee.PlayerState()       # enemy player state
+        self.at = melee.AttackState(3)      # Attack state
                         
-        self.release_buffer = { 0 : [] }
-        self.tilt_buffer = { 0 : [(melee.Button.BUTTON_MAIN, 0.5, 0.5)] } # [ (button, x , y) , (button, x, y) ]
+        self.release_buffer = { 0 : [] }    # framenum : [ (button) ]
+        self.tilt_buffer = {                # framenum : [ (button, x , y) , (button, x, y) ]
+            0 : [(melee.Button.BUTTON_MAIN, 0.5, 0.5)], 
+            1 : [(melee.Button.BUTTON_C, 0.5, 0.5)] 
+            } 
         
+        self.callback: function = False     # False if no callback, otherwise called ahead of other funcs
+
     def printAgent(self, ct: melee.Controller, func, file = sys.stdout):
         act = str(self.ps.action.value)+"-"+str(self.ps.action)+"(" + str(self.ps.action_frame) +")"
         iasa = str(self.cd.FD.iasa(self.ps.character,self.ps.action))
@@ -465,13 +470,66 @@ class GeneralizedAgent:
             return False
         
     ### GETUP/EDGE ###
-    def gtattack(self, ct: melee.Controller):
+    def getupAttack(self, ct: melee.Controller):
         if self.checkButtonRelease(ct, melee.Button.BUTTON_A): return False
         if self.cd.FD.iasa(self.ps.character, self.ps.action) <= 0 and self.ps.action.value in [192, 252, 253]: # TODO: might need 193 too
             ct.press_button(melee.Button.BUTTON_A)
             return True
         else:
             return False
+        
+    def ledgeDrop(self, ct: melee.Controller):
+        if self.ps.action == melee.Action.EDGE_HANGING:
+            ct.tilt_analog(melee.Button.BUTTON_C, int(not self.ps.facing), 0)
+            return True
+        else:
+            return False
+        
+    ### SHOULDERS ###
+    def rightShoulder(self, amt, ct: melee.Controller):
+        if self.checkRShoulderRelease(ct): return False
+        ct.press_shoulder(melee.Button.BUTTON_R, amt)
+        return True
+    
+
+    # TODO: Looping methods should become their own chains/tactics at some point
+    ### LOOPING ### 
+    def looping_ledgeDash(self, ct: melee.Controller):
+        if self.ps.position.y < -20 or self.ps.on_ground:   # Fell too far or on ground
+            self.callback = False
+            ct.release_all()
+            return 0
+        
+        if self.ps.action == melee.Action.EDGE_HANGING:     # Hanging
+            if self.checkCStickRelease(ct) or self.checkMStickRelease(ct): return 2
+            ct.tilt_analog(melee.Button.BUTTON_C, int(not self.ps.facing), 0.5)
+            return 2
+                                                            # Jumping
+        if self.ps.action.value > 24 and self.ps.action.value < 29: 
+            ct.tilt_analog(melee.Button.BUTTON_MAIN, int(self.ps.facing)*0.5, 0.4)
+
+            if self.ps.ecb_bottom[1] > 0:                   # Above ledge
+                self.rightShoulder(ct, 1)
+                self.appendRelease(5, melee.Button.BUTTON_R)
+                return 4
+            else:                                           # Below ledge
+                self.fullhop()
+                return 0
+                                                            # Falling
+        elif self.ps.jumps_left > 0 and self.ps.action.value < 35 and self.ps.action.value > 28:
+            ct.tilt_analog(melee.Button.BUTTON_MAIN, int(self.ps.facing)*0.5, 0.4)
+            if self.fullhop(ct):
+                return 2
+            else: 
+                return 0
+        
+        else:                                               # Uh oh
+            self.callback = False
+            ct.release_all()
+            return 0
+
+        
+
         
         
         
