@@ -204,16 +204,6 @@ def main():
 
     root.mainloop()
 
-    
-    
-
-#Character Options
-    #character
-    #aggresion = 1-9
-    #playstyle = aerial grounded mixed
-    #waveshine = boolean
-    #multishine = boolean
-
 def applyChange(key, value):
     global characterSettings
     characterSettings[key] = value
