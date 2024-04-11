@@ -14,6 +14,12 @@ from pathlib import Path
 import json
 import os
 from GeneralBot.BotManager import BotManager
+import customtkinter
+
+
+
+customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
+customtkinter.set_default_color_theme("green")  # Themes: blue (default), dark-blue, green
 
 WINDOW_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "window.json")
 
@@ -47,14 +53,17 @@ def getJSONPath():
 
 def main():
     # Initialize Window
-    root = tk.Tk()
+    root = customtkinter.CTk()
+    
+   
     root.geometry('1280x760')
     root.title("Slippi Stats")
-    title = Label(root, text = "Build a Slippi Bot", font = ('Helvetica 48 bold')).pack(pady = 20)
+    title = customtkinter.CTkLabel(root, text = "Build a Slippi Bot",font= ("Helvetica bold", 48)).pack()
+    #title = Label(root, text = "Build a Slippi Bot", font = ('Helvetica 48 bold')).pack(pady = 20)
     
     # Create a File Explorer label
     global label_file_explorer
-    label_file_explorer = Label(root, 
+    label_file_explorer = customtkinter.CTkLabel(root, 
                                 text = "",
                                 width = 100, height = 4)
     
@@ -70,29 +79,32 @@ def main():
     label1 = Label(root, image = "")
     global imageAppear
     imageAppear = True
-    selectedCharacter = tk.StringVar(master=root) #Always pass the 'master' keyword argument
+    selectedCharacter = customtkinter.StringVar(master=root) #Always pass the 'master' keyword argument
     selectedCharacter.set("Select a character")
     selectedCharacter.trace_add('write', characterImage)
-    characterLabel = tk.Label(root, text="Select a character to train against")
+    characterLabel = customtkinter.CTkLabel(root, text="Select a character to train against")
     characterLabel.pack(pady=5)
-    dropdown = tk.OptionMenu(root, selectedCharacter, *characters)
-    dropdown.pack()
-    
+    # dropdown = tk.OptionMenu(root, selectedCharacter, *characters)
+    # dropdown.pack()
+    dropdown2 = customtkinter.CTkOptionMenu(root,
+                                            variable=selectedCharacter,
+                                            values= characters)
+    dropdown2.pack()
     # File Explorer
-    button_explore = Button(root, 
+    button_explore = customtkinter.CTkButton(root, 
                             text = "Browse Files",
                             command = browseFiles)
     label_file_explorer.pack(pady=5)
     button_explore.pack(pady=5)
 
     # Launch Slippi
-    launchButton = Button(root,
+    launchButton = customtkinter.CTkButton(root,
                           text = "Launch Slippi",
                           command=runSlippi)
     launchButton.pack(pady=5)
 
     # Quit Button
-    quitButton = tk.Button(text="Quit", command=root.destroy)
+    quitButton = customtkinter.CTkButton(root,text="Quit", command=root.destroy)
     quitButton.pack(pady = 100)
     root.mainloop()
 
