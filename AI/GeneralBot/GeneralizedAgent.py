@@ -2,6 +2,10 @@ import melee
 import sys
 from GeneralBot.CharacterData import CharacterData
 
+# Frontend edits JSONs, these are used to setup the bot to behave however a user wants. Can be shared.
+# The hard thing about making a our code work for any of the characters is that characters are really diff
+# Some characters up attack hits down, forward attack hits back, and their jump actually makes them fall.
+
 class GeneralizedAgent:
     def __init__(self, cd: CharacterData):
         
@@ -157,7 +161,7 @@ class GeneralizedAgent:
     def hop_to_y(self, ct: melee.Controller, yval: int, minDist: int):
         if self.ps.position.y + minDist >= yval:
             ct.release_button(melee.Button.BUTTON_X)
-            return True
+            return False
         elif self.ps.jumps_left > 0 and self.at == melee.AttackState.NOT_ATTACKING:
             ct.press_button(melee.Button.BUTTON_X)
             self.appendRelease(self.cd.FD.frames_until_dj_apex(self.ps), melee.Button.BUTTON_X)
