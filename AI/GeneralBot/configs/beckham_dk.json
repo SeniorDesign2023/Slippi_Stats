@@ -1,10 +1,10 @@
 {
     "SLP" : {
-        "PORT_BOT" : 1,
+        "PORT_BOT" : 3,
         "PORT_OPP" : 2
     },
     "SELECTED" : {
-        "CHARACTER" : 3,
+        "CHARACTER" : 2,
         "STAGE" : 24
     },
     "OPTIONS" : {

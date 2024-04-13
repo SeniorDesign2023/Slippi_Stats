@@ -12,14 +12,11 @@ class GeneralizedAgent:
         self.cd = cd
         
         # maps from Actions to GeneralizedAgent functions
-        self.defensiveAttacks   = {
+        self.Acts   = {
             melee.Action.GETUP_ATTACK       : self.getupAttack,
             melee.Action.EDGE_ATTACK_QUICK  : self.getupAttack,
             melee.Action.EDGE_ATTACK_SLOW   : self.getupAttack,
-            melee.Action.GROUND_ATTACK_UP   : self.getupAttack
-            }
-        
-        self.groundedAttacks    = {
+            melee.Action.GROUND_ATTACK_UP   : self.getupAttack,
             melee.Action.NEUTRAL_ATTACK_1 : self.jab, 
             melee.Action.DASH_ATTACK    : self.dashAttack,
             melee.Action.DOWNSMASH      : self.dsmash, 
@@ -29,10 +26,7 @@ class GeneralizedAgent:
             melee.Action.UPTILT         : self.utilt, 
             melee.Action.FTILT_MID      : self.ftilt, 
             melee.Action.FTILT_LOW      : self.ftil_l, 
-            melee.Action.FTILT_HIGH     : self.ftilt_h
-            }
-        
-        self.aerialAttacks      = {
+            melee.Action.FTILT_HIGH     : self.ftilt_h,
             melee.Action.DAIR : self.dair, 
             melee.Action.UAIR : self.uair, 
             melee.Action.FAIR : self.fair, 
