@@ -39,3 +39,4 @@ something that can be done in the future.
 
 Confidence on completion from each team member + team average Scale of 1-5; 1 = not-confident; 3 = toss-up; 5 = confident  
 Kyle: 5/5.  
+Ben 5/5, still doing some work on the frontend but visually it is near final form visually, only need to write the functions that pair the buttons on the UI with the JSON files that comprise bot behavior.  It should be done by the start of next week.
