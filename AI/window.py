@@ -56,9 +56,9 @@ def main():
     root = customtkinter.CTk()
     
    
-    root.geometry('1280x500')
+    root.geometry('900x550')
     root.title("Slippi Stats")
-    title = customtkinter.CTkLabel(root, text = "Build a Slippi Bot",font= ("Helvetica bold", 48)).grid(row=0, column=0,padx=20,pady=20,sticky="ew", columnspan=2)
+    title = customtkinter.CTkLabel(root, text = "Build a Slippi Bot",font= ("Helvetica bold", 48)).grid(row=0, column=0,padx=20,pady=20,sticky="ew", columnspan=3)
     #title = Label(root, text = "Build a Slippi Bot", font = ('Helvetica 48 bold')).pack(pady = 20)
     
     # Column weights
@@ -68,10 +68,13 @@ def main():
 
     # Frames for the individual columns
     root.slippiFrame = customtkinter.CTkFrame(root)
-    root.slippiFrame.grid(row=1,column=0,padx=10,pady=(10,0),sticky="nsw")
+    root.slippiFrame.grid(row=1,column=0,padx=0,pady=(10,0),sticky="nsew")
 
     root.characterFrame = customtkinter.CTkFrame(root)
-    root.characterFrame.grid(row=1,column=1,padx=10,pady=(10,0),sticky="nsw")
+    root.characterFrame.grid(row=1,column=1,padx=0,pady=(10,0),sticky="nsew")
+    
+    root.characterImage = customtkinter.CTkFrame(root)
+    root.characterImage.grid(row=1,column=2,padx=0,pady=(10,0),sticky="nsew")
 
     # Create a File Explorer label
     global label_file_explorer
@@ -99,23 +102,23 @@ def main():
     dropdown2 = customtkinter.CTkOptionMenu(root.slippiFrame,
                                             variable=selectedCharacter,
                                             values= characters)
-    dropdown2.grid(row=1,column=0,padx=20,pady=0,sticky="ew")
+    dropdown2.grid(row=1,column=0,padx=(80,0),pady=0,sticky="nsew")
     # File Explorer
     button_explore = customtkinter.CTkButton(root.slippiFrame, 
                             text = "Browse Files",
                             command = browseFiles)
-    label_file_explorer.grid(row=2,column=0,padx=20,pady=(0,20),sticky="ew")
-    button_explore.grid(row=3,column=0,padx=20,pady=20,sticky="ew")
+    label_file_explorer.grid(row=2,column=0,padx=20,pady=(0,20),sticky="nsew")
+    button_explore.grid(row=3,column=0,padx=(80,0),pady=(40,20),sticky="nsew")
 
     # Launch Slippi
     launchButton = customtkinter.CTkButton(root.slippiFrame,
                           text = "Launch Slippi",
                           command=runSlippi)
-    launchButton.grid(row=4,column=0,padx=20,pady=20,sticky="ew")
+    launchButton.grid(row=4,column=0,padx=(80,0),pady=20,sticky="nsew")
 
     # Quit Button
     quitButton = customtkinter.CTkButton(root.slippiFrame,text="Quit", command=root.destroy)
-    quitButton.grid(row=5,column=0,padx=20,pady=20,sticky="ew")
+    quitButton.grid(row=6,column=0,padx=(80,0),pady=(200,20),sticky="nsew")
     
     # START OF COLUMN 2
 
@@ -123,73 +126,82 @@ def main():
     columnTwoLabel = customtkinter.CTkLabel(root.characterFrame,
                                             text="Character Options",
                                             corner_radius=10)
-    columnTwoLabel.grid(row=1,column=1,padx=20,pady=(0,10),sticky="ew")
+    columnTwoLabel.grid(row=1,column=1,padx=(50,0),pady=(0,10),sticky="ew")
 
     # Attack Style Dropdown
     attackLabel = customtkinter.CTkLabel(root.characterFrame,
                                          text="Attack Style",
                                          width=100,
                                          height=4)
-    attackLabel.grid(row=2,column=1,padx=20,pady=(0,10),sticky="ew")
+    attackLabel.grid(row=2,column=1,padx=(50,0),pady=(0,10),sticky="ew")
     attackStyle = customtkinter.StringVar(master=root)
     attackStyle.set("Select bots attack style")
     attackStyleDropdown = customtkinter.CTkOptionMenu(root.characterFrame,
                                             variable=attackStyle,
                                             values= ["Aerial", "Mixed", "Ground"])
-    attackStyleDropdown.grid(row=3,column=1,padx=0,pady=(0,10),sticky="ew")
+    attackStyleDropdown.grid(row=3,column=1,padx=(50,0),pady=(0,10),sticky="ew")
     
     # Playstyle Dropdown
     playstyleLabel = customtkinter.CTkLabel(root.characterFrame,
                                          text="Playstyle",
                                          width=100,
                                          height=4)
-    playstyleLabel.grid(row=4,column=1,padx=20,pady=(0,10),sticky="ew")
+    playstyleLabel.grid(row=4,column=1,padx=(50,0),pady=(0,10),sticky="ew")
     playstyleStyle = customtkinter.StringVar(master=root)
     playstyleStyle.set("Select bots playstyle")
     playstyleStyleDropdown = customtkinter.CTkOptionMenu(root.characterFrame,
                                             variable=playstyleStyle,
-                                            values= ["Aggressive", "Neutral", "Passive"])
-    playstyleStyleDropdown.grid(row=5,column=1,padx=0,pady=(0,10),sticky="ew")
+                                            values= ["Very Aggressive", "Aggressive", "Neutral", "Passive", "Evasive"])
+    playstyleStyleDropdown.grid(row=5,column=1,padx=(50,0),pady=(0,10),sticky="ew")
 
     # Edgeguard Dropdown
     edgeguardLabel = customtkinter.CTkLabel(root.characterFrame,
                                          text="Edgeguard",
                                          width=100,
                                          height=4)
-    edgeguardLabel.grid(row=6,column=1,padx=20,pady=(0,10),sticky="ew")
+    edgeguardLabel.grid(row=6,column=1,padx=(50,0),pady=(0,10),sticky="ew")
     edgeguardStyle = customtkinter.StringVar(master=root)
     edgeguardStyle.set("Select bots edgeguard style")
     edgeguardStyleDropdown = customtkinter.CTkOptionMenu(root.characterFrame,
                                             variable=edgeguardStyle,
                                             values= ["High", "Medium", "Low"])
-    edgeguardStyleDropdown.grid(row=7,column=1,padx=0,pady=(0,10),sticky="ew")
+    edgeguardStyleDropdown.grid(row=7,column=1,padx=(50,0),pady=(0,10),sticky="ew")
 
     # Frame Delay Slider
     frameDelayLabel = customtkinter.CTkLabel(root.characterFrame,
                                          text="Frame Delay",
                                          width=100,
                                          height=4)
-    frameDelayLabel.grid(row=8,column=1,padx=20,pady=(0,10),sticky="ew")
+    frameDelayLabel.grid(row=8,column=1,padx=(50,0),pady=(0,10),sticky="ew")
     frameDelaySlider = customtkinter.CTkSlider(root.characterFrame, from_=0, to=30, number_of_steps=30)
-    frameDelaySlider.grid(row=9,column=1)
+    frameDelaySlider.grid(row=9,column=1,padx=(50,0),sticky="ew")
 
     # L Cancel Slider
     LCancelLabel = customtkinter.CTkLabel(root.characterFrame,
                                          text="L Cancel Rate",
                                          width=100,
                                          height=4)
-    LCancelLabel.grid(row=10,column=1,padx=20,pady=(0,10),sticky="ew")
+    LCancelLabel.grid(row=10,column=1,padx=(50,0),pady=(0,10),sticky="ew")
     LCancelSlider = customtkinter.CTkSlider(root.characterFrame, from_=0, to=1, number_of_steps=10)
-    LCancelSlider.grid(row=11,column=1)
+    LCancelSlider.grid(row=11,column=1,padx=(50,0),sticky="ew")
 
     # Tech Rate Slider
     techRateLabel = customtkinter.CTkLabel(root.characterFrame,
                                          text="Tech Rate",
                                          width=100,
                                          height=4)
-    techRateLabel.grid(row=12,column=1,padx=20,pady=(0,10),sticky="ew")
+    techRateLabel.grid(row=12,column=1,padx=(50,0),pady=(0,10),sticky="ew")
     techRateSlider = customtkinter.CTkSlider(root.characterFrame, from_=0, to=1, number_of_steps=10)
-    techRateSlider.grid(row=13,column=1)
+    techRateSlider.grid(row=13,column=1,padx=(50,0),sticky="ew")
+
+    # Perfect Block Chance Slider
+    perfectBlockChanceLabel = customtkinter.CTkLabel(root.characterFrame,
+                                                    text="Perfect Block Chance",
+                                                    width=100,
+                                                    height=4)
+    perfectBlockChanceLabel.grid(row=14,column=1,padx=(50,0),pady=(0,10),sticky="ew")
+    perfectBlockChanceSlider = customtkinter.CTkSlider(root.characterFrame, from_=0, to=1, number_of_steps=10)
+    perfectBlockChanceSlider.grid(row=15,column=1,padx=(50,0),sticky="ew")
 
     # Dictionary to store values of slippi bot
     global characterSettings
@@ -199,7 +211,8 @@ def main():
         "edgeguard" : "High",
         "frameDelay" : 0,
         "LCancelRate" : .8,
-        "techRate" : .8
+        "techRate" : .8,
+        "perfectBlockChance" : .8
     }
 
     root.mainloop()
@@ -214,7 +227,7 @@ def characterImage(*args):
     if imageAppear == True:
         clearImage()
     path = pathlib.Path(__file__).parent.resolve()
-    path = path._str + "\\CharacterImages\\{}.jpg".format(selectedCharacter.get())
+    path = path._str + "/CharacterImages/{}.jpg".format(selectedCharacter.get())
     # path = path.replace("\\\\","\\")
     path = Path(path)
     characterImage = Image.open(path)
@@ -222,7 +235,7 @@ def characterImage(*args):
     label1 = tk.Label(image=test)
     label1.image = test
     # Position image
-    label1.grid(row=1,column=2,padx=20,pady=20)
+    label1.grid(row=1,column=2,padx=0,pady=20)
     imageAppear = True
 
 def clearImage():
