@@ -26,7 +26,7 @@ things that take playing with to figure out what it does, due to many actions ha
 name but working differently work every character). 
 
 Changes/Deviation from Plan ​(if applicable - if not, say so!)
-We are not even close to the project that was pitched at the beginning of last semester, however,  
+We are not even close to the project that was pitched at the beginning of last semester, however,
 for this semester we have not deviated but were not able to get into several of the stretch goals  
 we had wanted to reach.
 
