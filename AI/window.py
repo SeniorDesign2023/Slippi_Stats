@@ -249,6 +249,7 @@ def runSlippi():
     print("Game end!")
     print(res[0])
     print(res[1])
+    return
     
 
 def browseFiles():

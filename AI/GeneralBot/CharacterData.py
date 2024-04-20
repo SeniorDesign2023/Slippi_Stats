@@ -81,8 +81,6 @@ groundedAttacks = {
     melee.Action.DOWNTILT: "dtilt",
     melee.Action.UPTILT: "utilt",
     melee.Action.FTILT_MID: "ftilt_m",
-    melee.Action.FTILT_LOW: "ftilt_l",
-    melee.Action.FTILT_HIGH: "ftilt_h",
 }
 
 aerialAttacks = {
@@ -108,18 +106,25 @@ class CharacterData:
         self.RIGHT_EDGE_X = melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
         self.LEFT_EDGE_X = -melee.stages.EDGE_POSITION[self.STAGE_SELECTED]
         
+        print("RIGHT: " + str(self.RIGHT_EDGE_X))
+        print("LEFT: " + str(self.LEFT_EDGE_X))
+        
         self.ENEMY_CHARACTER = opp_character 
         self.ENEMY_WEIGHT = characterDict[opp_character]
         
+        print(characterDict[character])
         f = open(os.path.join(os.path.dirname(__file__),characterDict[self.CHARACTER]), "r")
         betterFrameData: dict = json.load(f)
         f.close
         
         self.groundAtt = dict(groundedAttacks)
         self.aerialAtt = dict(aerialAttacks)
+        
+        
 
         for key, val in groundedAttacks.items():
             att: dict = betterFrameData.get(val, None)
+            if att == None: continue
             totalFrames = att.get("totalFrames", None)
             chargeFrame = att.get("chargeFrame", None)
             iasa = att.get("iasa", None)

@@ -4,17 +4,17 @@
         "PORT_OPP" : 2
     },
     "SELECTED" : {
-        "CHARACTER" : 2,
+        "CHARACTER" : 1,
         "STAGE" : 24
     },
     "OPTIONS" : {
         "FRAME_DELAY" : 0,
-        "LCNCL_RATE" : 0.8,
-        "TECH_RATE" : 0.8,
+        "LCNCL_RATE" : 0.0,
+        "TECH_RATE" : 0.9,
         "PLAYSTYLE" : "aggressive",
         "ATTACK_STYLE" : "aerial",
         "PERFECT_RECOVERY" : true,
-        "EDGE_GUARD" : "high"
+        "EDGE_GUARD" : "low"
     },
     "SPECIAL" : {
         "WAVESHINE" : false,

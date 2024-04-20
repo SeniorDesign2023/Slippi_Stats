@@ -4,6 +4,15 @@ import random
 from GeneralBot.CharacterData import CharacterData
 from GeneralBot.GeneralizedAgent import GeneralizedAgent
 
+# All damaging states, https://libmelee.readthedocs.io/en/latest/enums.html
+DAMAGED_ACTIONS = [melee.Action.DAMAGE_HIGH_1, melee.Action.DAMAGE_HIGH_2,melee.Action.DAMAGE_HIGH_3, melee.Action.DAMAGE_NEUTRAL_1,melee.Action.DAMAGE_NEUTRAL_2,
+melee.Action.DAMAGE_NEUTRAL_3,melee.Action.DAMAGE_LOW_1,melee.Action.DAMAGE_LOW_2,melee.Action.DAMAGE_LOW_3,melee.Action.DAMAGE_AIR_1, melee.Action.DAMAGE_AIR_2,
+melee.Action.DAMAGE_AIR_3, melee.Action.DAMAGE_FLY_HIGH, melee.Action.DAMAGE_FLY_NEUTRAL, melee.Action.DAMAGE_FLY_LOW, melee.Action.DAMAGE_FLY_TOP,
+melee.Action.DAMAGE_FLY_ROLL, melee.Action.GRABBED, melee.Action.GRAB_PUMMELED, melee.Action.GRAB_PULL, melee.Action.GRAB_PULLING_HIGH, 
+melee.Action.GRABBED_WAIT_HIGH, melee.Action.PUMMELED_HIGH, melee.Action.CAPTURE_WAIT_KIRBY, melee.Action.CAPTURE_KIRBY, melee.Action.SHOULDERED_WAIT, 
+melee.Action.SHOULDERED_WALK_SLOW, melee.Action.SHOULDERED_WALK_MIDDLE, melee.Action.SHOULDERED_TURN, melee.Action.CAPTURE_WAIT_KOOPA, melee.Action.CAPTURE_DAMAGE_KOOPA,
+melee.Action.THROWN_FORWARD, melee.Action.THROWN_BACK, melee.Action.THROWN_UP, melee.Action.THROWN_DOWN, melee.Action.THROWN_DOWN_2]
+
 # get vector from position
 def positionVector(start_x: float, start_y: float, end_x: float, end_y: float):
     distance = [start_x - end_x, start_y - end_y]
@@ -46,6 +55,7 @@ def testStrategy(path: str, character: melee.Character, stage: melee.Stage, port
             gamestate = console.step()
             
             if gamestate is None:
+                return "Done"
                 continue
 
             if console.processingtime * 1000 > 12:
@@ -54,58 +64,137 @@ def testStrategy(path: str, character: melee.Character, stage: melee.Stage, port
             if gamestate.menu_state in [melee.Menu.IN_GAME, melee.Menu.SUDDEN_DEATH]:
                     
                 ga.nextState(gamestate)
-                ga.endState(controller)
+                ga.endState(controller) # Releases buffered buttons, is okay to go at start of gameState
                 ga.printAgent(controller, att)
                 
-                rng = random.choice([0, 0, 0, 0, 0, 1, 1, 1, 2, 3])
-    
+                if gamestate.frame % 90:
+                    rng = random.choice([0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3])
                 ### NON INTERUPTABLE ###
-                # TODO
                 # put interupting actions here
-                # i.e. if hit, or l-cancel, shield, slideoff response
-
+                # i.e. if hit, or l-cancel, shield, slideoff response.
+                
+                # Hit response
+                if ga.ps.action in DAMAGED_ACTIONS:         
+                    print("damaged", end="\r")          
+                    # Been hit, forget whatever we've been doing
+                    waitFrame = gamestate.frame
+                    ga.callback = False
+                    
+                    # Tech Code below is from https://github.com/altf4/SmashBot/blob/main/Tactics/mitigate.py
+                    # is the only directly sourced code from SmashBot.
+                    #
+                    # Tech if we need to
+                    # Calculate when we will land
+                    if ga.ps.position.y > -4 and not ga.ps.on_ground and \
+                            melee.Action.DAMAGE_HIGH_1.value <= ga.ps.action.value <= melee.Action.DAMAGE_FLY_ROLL.value:
+                        framesuntillanding = 0
+                        speed = ga.ps.speed_y_attack + ga.ps.speed_y_self
+                        height = ga.ps.position.y
+                        gravity = ga.cd.FD.characterdata[ga.ps.character]["Gravity"]
+                        termvelocity = ga.cd.FD.characterdata[ga.ps.character]["TerminalVelocity"]
+                        while height > 0:
+                            height += speed
+                            speed -= gravity
+                            speed = max(speed, -termvelocity)
+                            framesuntillanding += 1
+                            # Shortcut if we get too far
+                            if framesuntillanding > 120:
+                                break
+                        # Do the tech
+                        if framesuntillanding < 4:
+                            print("TECHING")
+                            controller.release_all() # ensure generally fresh state after teching
+                            controller.press_button(melee.Button.BUTTON_R)
+                            ga.appendRelease(4, melee.Button.BUTTON_R)
+                            controller.tilt_analog(melee.Button.BUTTON_C, 0.5, 0.5)
+                    
+                    elif ga.ps.action in [melee.Action.GRABBED, melee.Action.GRAB_PUMMELED, melee.Action.GRAB_PULL, # Grabbed
+                        melee.Action.GRAB_PUMMELED, melee.Action.GRAB_PULLING_HIGH, melee.Action.GRABBED_WAIT_HIGH, melee.Action.PUMMELED_HIGH, 
+                        melee.Action.CAPTURE_WAIT_KIRBY, melee.Action.CAPTURE_KIRBY, melee.Action.SHOULDERED_WAIT, melee.Action.SHOULDERED_WALK_SLOW, # Donkey Kong and Kirby stuff
+                        melee.Action.SHOULDERED_WALK_MIDDLE, melee.Action.SHOULDERED_TURN]:
+                        if gamestate.frame % 3 == 0:
+                            if not controller.current.button[melee.Button.BUTTON_A]:
+                                controller.tilt_analog(melee.Button.BUTTON_MAIN, 0, 0)
+                                controller.tilt_analog(melee.Button.BUTTON_C, 0.125, 0.125)
+                                for btn in [melee.Button.BUTTON_A, melee.Button.BUTTON_B, melee.Button.BUTTON_X, melee.Button.BUTTON_Y]:
+                                    controller.press_button(btn)
+                            else:
+                                controller.release_all()
+                                controller.tilt_analog(melee.Button.BUTTON_MAIN, 0.25, 0.25)
+                                controller.tilt_analog(melee.Button.BUTTON_C, 0.875, 0.125)
+                    else:
+                        # DI to stage
+                        controller.release_all()
+                        centerStage = positionVector(ga.ps.position.x, ga.ps.position.y, 0, 0)
+                        controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, centerStage[0], centerStage[1])
+                        controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, abs(centerStage[0]-0.25), abs(centerStage[1]-0.25))
+                        controller.release_button(melee.Button.BUTTON_L)
+                        controller.release_button(melee.Button.BUTTON_R)               
+                
                 ### INTERUPTABLE ####
-
-                if waitFrame <= gamestate.frame: # post-wait chains
+                elif waitFrame <= gamestate.frame: # post-wait chains
+                    controller.release_button(melee.Button.BUTTON_L)
+                    controller.release_button(melee.Button.BUTTON_R)
                     
                     if ga.callback != False: # callback chains, can modify waitFrame
-                        print("LOOPING", end="\r")
                         waitFrame = gamestate.frame + ga.callback(controller)
+                        print("LOOPING: waitFrame = " + str(waitFrame - gamestate.frame))
                                    
-                    if ga.ps.action == melee.Action.EDGE_HANGING:
-                        ga.callback = ga.looping_ledgeDash
-                        waitFrame = gamestate.frame + ga.looping_ledgeDash(controller)
+                    elif ga.ps.action == melee.Action.EDGE_HANGING:
+                        if rng == 1:
+                            ga.callback = ga.looping_ledgeDash
+                            waitFrame = gamestate.frame + ga.looping_ledgeDash(controller)
+                        elif ga.ps.percent < 100:
+                            if gamestate.frame % 2 == 0:
+                                ga.getupAttack(controller)
+                                waitFrame = gamestate.frame + 4
+                            else:
+                                ga.shorthop(controller)
+                                waitFrame = gamestate.frame + 4
+                        else:
+                            controller.press_button(melee.Button.BUTTON_R)
+                            waitFrame = gamestate.frame + 4
+                                
 
                     # TODO: Off stage, can be separated into Tactic
-                    elif ga.ps.off_stage:
+                    elif ga.ps.position.x < ga.cd.LEFT_EDGE_X or ga.ps.position.x > ga.cd.RIGHT_EDGE_X and not ga.ps.action == melee.Action.EDGE_HANGING:
                         edgeVec = positionVector(ga.ps.position.x, ga.ps.position.y, ga.cd.RIGHT_EDGE_X*(1 if ga.ps.position.x > 0 else -1), 0) # vector to nearest edge
-                        print("OFF STAGE", end="\r")
+                        print("OFF STAGE")
                         if ga.ps.jumps_left > 0: # we have jumps
                             if ga.at == melee.AttackState.COOLDOWN or ga.es.hitstun_frames_left > 0: # off stage and attempted hit
-                                controller.tilt_analog(melee.Button.BUTTON_MAIN, edgeVec[0], edgeVec[1])
+                                centerStage = positionVector(ga.ps.position.x, ga.ps.position.y, 0, 0)
+                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, centerStage[0], centerStage[1])
                             elif ga.at == melee.AttackState.ATTACKING or ga.at == melee.AttackState.WINDUP: # we're attacking and haven't hit, drift into enemy
                                 p = positionVector(ga.ps.position.x, ga.ps.position.y, ga.es.position.x, ga.es.position.y)
-                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], p[1])
+                                controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, p[0], 1)
                             else:  # we have not attempted an attack
-                                if abs(ga.es.position.x) > abs(ga.ps.position.x) and ga.gs.distance < 50 and ga.ps.position.y > 15: # enemy is further off edge, were above 0, and close
-                                    if ga.Acts[ga.cd.aerialAtt_short[0].action](controller):
-                                        print("EDGE ATTACK", end="\r")
-                                        waitFrame = gamestate.frame + 2
-                                else: # jump to ledge
-                                    if ga.ps.position.x < 0 and not ga.ps.facing and not ga.hop_to_y(controller, 10, 10):
-                                        ga.shorthop(controller, True)
-                                        controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, int(ga.ps.position.x < 0), 0.5)
-                                    else:
-                                        controller.tilt_analog(melee.Button.BUTTON_MAIN, edgeVec[0], edgeVec[1])
+                                #if ga.gs.distance < 5 and ga.ps.position.y > 50 and (ga.cd.LEFT_EDGE_X - abs(ga.ps.position.x)) < 15: # enemy is further off edge, were above 0, and close
+                                #    if ga.Acts[ga.cd.aerialAtt_short[0].action](controller):
+                                #        print("EDGE ATTACK", end="\r")
+                                #        waitFrame = gamestate.frame + 2
+                                #else: # jump to ledge
+                                ga.hop_to_y(controller, 20, 20)
+                                controller.tilt_analog(melee.Button.BUTTON_MAIN, int(ga.ps.position.x < 0), 0.75)
                         else: # no jumps
-                            controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, edgeVec[0], edgeVec[1])
-                            if abs(ga.ps.position.x) - ga.cd.RIGHT_EDGE_X < 25 and ga.ps.y > 10: # if we're near edge, make sure we don't hold down and fall through
+                            print("NO JUMPS PLEASE GOD")
+                            if abs(ga.ps.position.x) < ga.cd.RIGHT_EDGE_X:
+                                controller.tilt_analog(melee.Button.BUTTON_MAIN, int(not ga.ps.position.x > 0), 0.5) # under stage, pin to side pointing to ledge
+                                print("under stage")
+                            if (abs(ga.ps.position.x) - ga.cd.RIGHT_EDGE_X) < 15 and ga.ps.y > 0: # if we're near edge, make sure we don't hold down and fall through
                                 controller.tilt_analog_unit(melee.Button.BUTTON_MAIN,edgeVec[0], max(edgeVec[1], 0.5))
+                                print("no fall through")
+                                
                             elif ga.cd.FD.frames_until_dj_apex(ga.ps) > 0:
-                                ga.hop_to_y(controller, 0, 10) # continue jump
-                            elif not ga.upb(controller): # up B to edge
+                                ga.hop_to_y(controller, 20, 0) # continue jump
+                                print("still jumping")
+                            elif ga.upb(controller): # up B to edge
+                                controller.tilt_analog(melee.Button.BUTTON_MAIN, int(ga.ps.position.x < 0), 1) # Some up-b need the stick to tilt right
+                                waitFrame = gamestate.frame + 2
+                                print("UP B SUCCESS!")
+                            else:
+                                print("UP TRIED :(")
                                 controller.tilt_analog_unit(melee.Button.BUTTON_MAIN, edgeVec[0], edgeVec[1])
-                                waitFrame = gamestate.frame + 4
+                                
                     
                     # TODO: Enemy death, can be separated into Tactic
                     elif ga.es.action.value < 14: # Death animations, or on halo
@@ -114,66 +203,74 @@ def testStrategy(path: str, character: melee.Character, stage: melee.Stage, port
 
                     # TODO: Below can be separated into an approach Tactic
                     # attacking, fast fall
-                    elif ga.at in [melee.AttackState.ATTACKING or melee.AttackState.WINDUP]:
+                    elif ga.at in [melee.AttackState.ATTACKING or melee.AttackState.WINDUP] and abs(ga.ps.position.x) < 50:
                         ga.ffall(controller)
                     
-                    # Approach
+                    # Approach or pre-empt defense
                     else:
+                        esAt = ga.cd.FD.attack_state(ga.cd.ENEMY_CHARACTER, ga.es.action, ga.es.action_frame)
+                        esIasa = ga.cd.FD.iasa(ga.cd.ENEMY_CHARACTER, ga.es.action)
+                        
                         controller.tilt_analog(melee.Button.BUTTON_MAIN, int(ga.es.position.x > ga.ps.position.x), 0.5)
                         ga.hop_to_y(controller, ga.es.position.y, 5)
                         waitFrame = gamestate.frame + 2
                         
-                        if ga.es.position.y < ga.ps.position.y and ga.ps.position.y > 10:
-                            ga.platFall(controller)
-                            waitFrame = gamestate.frame + 2
+                        if ga.es.position.y + 10 < ga.ps.position.y and ga.ps.position.y > 10:
+                            ga.callback = ga.looping_platFall
+                            waitFrame = gamestate.frame + ga.looping_platFall(controller)
                         
-                        elif ga.gs.distance < 20 and ga.at not in []:
+                        elif ga.gs.distance < 30:
+                            fn = ga.jab
                             if ga.ps.on_ground:
                                 if ga.ps.position.x < ga.es.position.x:
-                                    if ga.es.iasa > 0 and (ga.es.iasa - ga.cd.groundAtt_less60[rng].firstHit) > -4:
+                                    if esIasa > 0 and (esIasa - ga.cd.groundAtt_less60[rng].firstHit) > -4:
                                         if ga.ps.facing:
                                             if ga.es.percent < 60:
-                                                ga.Acts[ga.cd.groundAtt_less60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.groundAtt_less60[rng].action]
                                             else:
-                                                ga.Acts[ga.cd.groundAtt_abov60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.groundAtt_abov60[rng].action]
                                         else:
-                                            ga.bsmash(controller)
+                                            ga.bsmash
                                     else:
-                                        ga.Acts[ga.cd.groundAtt_short[rng].action](controller)
+                                        fn = ga.Acts[ga.cd.groundAtt_short[rng].action]
                                 else:
-                                    if ga.es.iasa > 0 and (ga.es.iasa - ga.cd.groundAtt_less60[rng].firstHit) > -4:
+                                    if esIasa > 0 and (esIasa - ga.cd.groundAtt_less60[rng].firstHit) > -4:
                                         if not ga.ps.facing:
                                             if ga.es.percent < 60:
-                                                ga.Acts[ga.cd.groundAtt_less60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.groundAtt_less60[rng].action]
+                                                
                                             else:
-                                                ga.Acts[ga.cd.groundAtt_abov60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.groundAtt_abov60[rng].action]
+
                                         else:
-                                            ga.bsmash(controller)
+                                            ga.bsmash
                                     else:
-                                        ga.Acts[ga.cd.groundAtt_short[rng].action](controller)
+                                        fn = ga.Acts[ga.cd.groundAtt_short[rng].action]
                             else:
                                 if ga.ps.position.x < ga.es.position.x:
-                                    if ga.es.iasa > 0 and (ga.es.iasa - ga.cd.aerialAtt_less60[rng].firstHit) > -4:
+                                    if esIasa > 0 and (esIasa - ga.cd.aerialAtt_less60[rng].firstHit) > -4:
                                         if ga.ps.facing:
                                             if ga.es.percent < 60:
-                                                ga.Acts[ga.cd.aerialAtt_less60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.aerialAtt_less60[rng].action]
                                             else:
-                                                ga.Acts[ga.cd.aerialAtt_abov60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.aerialAtt_abov60[rng].action]
                                         else:
-                                            ga.bair(controller)
+                                            ga.bair
                                     else:
-                                        ga.Acts[ga.cd.aerialAtt_short[rng].action](controller)
+                                        fn = ga.Acts[ga.cd.aerialAtt_short[rng].action]
                                 else:
-                                    if ga.es.iasa > 0 and (ga.es.iasa - ga.cd.aerialAtt_less60[rng].firstHit) > -4:
+                                    if esIasa > 0 and (esIasa - ga.cd.aerialAtt_less60[rng].firstHit) > -4:
                                         if not ga.ps.facing:
                                             if ga.es.percent < 60:
-                                                ga.Acts[ga.cd.aerialAtt_less60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.aerialAtt_less60[rng].action]
                                             else:
-                                                ga.Acts[ga.cd.aerialAtt_abov60[rng].action](controller)
+                                                fn = ga.Acts[ga.cd.aerialAtt_abov60[rng].action]
                                         else:
-                                            ga.bair(controller)
+                                            ga.bair
                                     else:
-                                        ga.Acts[ga.cd.aerialAtt_short[rng].action](controller)
+                                        fn = ga.Acts[ga.cd.aerialAtt_short[rng].action]
+                            # Execute chosen move
+                            print(str(fn)[30:35] + "  " + str(fn(controller)), end="\r")
                                 
                 else:
                     if waitFrame == -1:  # new game            
