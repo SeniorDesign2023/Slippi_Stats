@@ -34,5 +34,5 @@
 	We would be much more consistent about workflow, instead of trying to do so much at the end.  
 	Try to find a set time to meet each week. It can be hard to get the whole team together and on the same page.
 - Advice for future team  
-	Treat this class like there is something due every week, not something huge due in 4 months.
+	Treat this class like there is something due every week, not something huge due in 4 months.  
 	Try to schedule your meetings with your mentor earlier, as apposed to waiting till 3 days before class.
