@@ -23,6 +23,7 @@
 ### Statement of Work
 - Whole Team
 - 1 per  team member
+- Beckham: As team lead I was heavily involved in the planning/design process early on. As we transitioned into development I worked primarily on the backend, programming the GeneralizedAgent and CharacterData classes as well as our default test logic that implement these classes. 
 
 ### Reflection on your team's ability to design, implement, and evaluate a solution. [20 pt]
 
