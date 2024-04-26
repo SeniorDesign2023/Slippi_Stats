@@ -37,8 +37,8 @@ members in ideas and planning and some slides were done by them that I then edit
 ### Lessons Learned
 - "If you had to do it all over again"  
 	We would be much more consistent about workflow, instead of trying to do so much at the end.  
-	Try to find a set time to meet each week. It can be hard to get the whole team together and on the same page.
-	Work on actually building simple bots with basic actions during the first semester to get more fimaliar with libmelee.
+	Try to find a set time to meet each week. It can be hard to get the whole team together and on the same page.  
+	Work on actually building simple bots with basic actions during the first semester to get more fimaliar with libmelee.  
 	Have much better commenting in the code so others can follow along better, this was made more difficult by the naming convention of libmelee, so stronger comments would have
 	helped.  
 - Advice for future team  
