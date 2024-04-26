@@ -24,13 +24,15 @@
 - 1 per  team member
 - Beckham: As team lead I was heavily involved in the planning/design process early on. As we transitioned into development I worked primarily on the backend, programming the GeneralizedAgent and CharacterData classes as well as our default test logic that implement these classes. 
 - Michael: I worked loosely with Beckham on the backend, which for me included things like creating and implementing specific logic for individual bots. Also I made the video with the clips that the rest of the group sent me.
-- Ben: I am one of the members that has experience with Smash games so I had input especially in the early stages. I helped design and implement the frontend including converting it to a Customtkinter framework.  
+- Ben: I am one of the members that has experience with Smash games so I had input especially in the early stages. I helped design and implement the frontend including converting it to a Customtkinter framework.
+- Zach: I worked on the framework and frontend of the application, making the initial version of the application to see the feasibility of reading files in Python, and creating most of the interactables on the application to allow the user to customize the bot.  
 ### Reflection on your team's ability to design, implement, and evaluate a solution. [20 pt]
 - Front End: We were able to create an easy to use UI that allowed players to create a bot based on their preferences.  It would be easily understandable to any user of Slippi and would look familiar (green).  We made it across the finish line, but we encountered problems with finding time to meet and work together both as a frontend team as well as meeting with the backend folks to make sure that our work would be compatible with their needs. Toward the end we had more success dividing and completing work.
 - Back End: We were able to create an efficient and dynamic system that processes JSON files passed by the front end to run a bot that can (almost. minus the previously mentioned limitations) match any configuration of a bot that the user could want. The bot is precise and easy to scale to the correct skill level, and runs very well in 60 fps. We had a vision, and over the course of the semester, we were able to implement that vision and create something useful.
 ### Lessons Learned
-- "If you had to do it all over again"
-	We would be much more consistent about workflow, instead of trying to do so much at the end.
+- "If you had to do it all over again"  
+	We would be much more consistent about workflow, instead of trying to do so much at the end.  
 	Try to find a set time to meet each week. It can be hard to get the whole team together and on the same page.
-- Advice for future team
+- Advice for future team  
 	Treat this class like there is something due every week, not something huge due in 4 months.
+	Try to schedule your meetings with your mentor earlier, as apposed to waiting till 3 days before class.
