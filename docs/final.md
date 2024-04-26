@@ -1,5 +1,5 @@
 ### A synopsis of your project goal(s) [15 pt]
-
+- Our goal was to create a utility for Super Smash Bros Melee to help people of any skill level become more skilled at the game.
 ### Link to all written status updates [5 pt]
 - [status 1](https://github.com/SeniorDesign2023/Slippi_Stats/blob/main/docs/status/status1.md)
 - [status 2](https://github.com/SeniorDesign2023/Slippi_Stats/blob/main/docs/status/status2.md)
@@ -10,23 +10,25 @@
 - [Retrospective](https://github.com/SeniorDesign2023/Slippi_Stats/blob/main/docs/status/retrospective.md)
 ### Links to all videos created (see other assignments) [5 pt]
 -[Project Showcase Video](https://www.youtube.com/watch?v=8CjRA2EWUTw&feature=youtu.be)
-
 ### Project Planning and Execution [15 pt]
 - Link to (or markdown version of) [Design Requirements & Specification](https://github.com/SeniorDesign2023/Slippi_Stats/blob/main/docs/project.pdf)
 - Finalized [Plan of Work](https://github.com/SeniorDesign2023/Slippi_Stats/blob/main/docs/final.pdf)
-  
 ### Summary of Final Implementation: [40 pt]
-- Design: 
+- Design: The user interacts with a GUI where they select from a list of characters, attack styles, playstyles (i.e. aggressive, passive, etc), and edgeguard proficiencies, then choose how much frame delay, L cancel rate, tech rate, and perfect block chance that they would like the bot to have, then they start the bot. This interfaces with an external utility called the Slippi emulator, which boots up an image of Super Smash Bros Melee with the generated bot as one of the characters in the queue. When the user starts the match, the bot accesses the CharacterData class to know which of its moves do what, and then the GeneralizedAgent class, with its chosen settings for reference, to know how to apply those moves and battle the user.
 - Limitations: Not all parameters allowed in JSON format are utilized (Edgegaurd level, frame delay, attack type always uses 'mixed'). In the case of frame delay this would be trivial to implement but was skipped for higher priority issues. Edgegaurd level is also straightforward, it would involve (semi-subjectively) idenifyting points in our existing logic to break out of to reduce difficulty and skipping based on the JSON input. Attack type can be manually modified in code by editing the RNG table and CharacterData structure to prioritize aeirial vs. ground types, but currently the frontend setting does not apply this. 
 - Future Direction: We would love to add an option to have the bot play against itself, this would be a straightfoward addition as we would need to instantiate two agents on different ports and not much else would change. We would also like to improve the bot's skill ceiling, it currently reaches our goal of being better than a level-9 bot but we would like to increase it's range to get closer to 'SmashBot' levels of difficulty that can be tuned down. Our backend framework was designed to allow programming new behaviors ('strategies') easily, our team would like to explore adding additional behavior types, or potentially allowing users to select multiple types and a basic logic for switching between them.
-
 ### Statement of Work
 - Whole Team
+- Our task this semester was to create a user-customizable bot for Super Smash Bros Melee that would be able to play any character and dynamically apply the provided settings during runtime by analyizing the user's actions and reacting accordingly, based on how it was customized to behave.
+
 - 1 per  team member
 - Beckham: As team lead I was heavily involved in the planning/design process early on. As we transitioned into development I worked primarily on the backend, programming the GeneralizedAgent and CharacterData classes as well as our default test logic that implement these classes. 
-
+- Michael: I worked loosely with Beckham on the backend, which for me included things like creating and implementing specific logic for individual bots. Also I made the video with the clips that the rest of the group sent me.
 ### Reflection on your team's ability to design, implement, and evaluate a solution. [20 pt]
-
+- Front End:
+- Back End: We were able to create an efficient and dynamic system that processes JSON files passed by the front end to run a bot that can (almost. minus the previously mentioned limitations) match any configuration of a bot that the user could want. The bot is precise and easy to scale to the correct skill level, and runs very well in 60 fps. We had a vision, and over the course of the semester, we were able to implement that vision and create something useful.
 ### Lessons Learned
 - "If you had to do it all over again"
+	We would be much more consistent about workflow, instead of trying to do so much at the end.
 - Advice for future team
+	Treat this class like there is something due every week, not something huge due in 4 months.
